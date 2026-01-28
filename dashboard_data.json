@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-01-28T18:00:44.922656",
+  "generated_at": "2026-01-28T18:57:45.321633",
   "stats": {
-    "whale_count": 22,
-    "open_trade_count": 4589,
+    "whale_count": 23,
+    "open_trade_count": 11340,
     "resolved_trade_count": 12,
     "market_count": 500,
     "total_wins": 7,
@@ -17,16 +17,16 @@
       "win_count": 0,
       "loss_count": 0,
       "total_pnl": 0,
-      "open_trades": 100,
+      "open_trades": 276,
       "win_rate": 0
     },
     {
       "address": "0xcb3143ee858e14d0b3fe40ffeaea78416e646b02",
-      "total_volume": 19862896.7973,
+      "total_volume": 19907804.7861,
       "win_count": 0,
       "loss_count": 0,
       "total_pnl": 0,
-      "open_trades": 16,
+      "open_trades": 143,
       "win_rate": 0
     },
     {
@@ -35,7 +35,16 @@
       "win_count": 0,
       "loss_count": 0,
       "total_pnl": 0,
-      "open_trades": 84,
+      "open_trades": 712,
+      "win_rate": 0
+    },
+    {
+      "address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "total_volume": 11106830.220400002,
+      "win_count": 0,
+      "loss_count": 0,
+      "total_pnl": 0,
+      "open_trades": 39,
       "win_rate": 0
     },
     {
@@ -71,7 +80,7 @@
       "win_count": 0,
       "loss_count": 0,
       "total_pnl": 0,
-      "open_trades": 6,
+      "open_trades": 832,
       "win_rate": 0
     },
     {
@@ -80,7 +89,7 @@
       "win_count": 0,
       "loss_count": 0,
       "total_pnl": 0,
-      "open_trades": 38,
+      "open_trades": 464,
       "win_rate": 0
     },
     {
@@ -89,7 +98,7 @@
       "win_count": 0,
       "loss_count": 2,
       "total_pnl": -87410.0,
-      "open_trades": 29,
+      "open_trades": 799,
       "win_rate": 0.0
     },
     {
@@ -98,7 +107,7 @@
       "win_count": 0,
       "loss_count": 0,
       "total_pnl": 0,
-      "open_trades": 24,
+      "open_trades": 99,
       "win_rate": 0
     },
     {
@@ -116,7 +125,7 @@
       "win_count": 0,
       "loss_count": 0,
       "total_pnl": 0,
-      "open_trades": 0,
+      "open_trades": 537,
       "win_rate": 0
     },
     {
@@ -143,7 +152,7 @@
       "win_count": 0,
       "loss_count": 0,
       "total_pnl": 0,
-      "open_trades": 4,
+      "open_trades": 127,
       "win_rate": 0
     },
     {
@@ -152,7 +161,7 @@
       "win_count": 0,
       "loss_count": 0,
       "total_pnl": 0,
-      "open_trades": 1,
+      "open_trades": 269,
       "win_rate": 0
     },
     {
@@ -170,7 +179,7 @@
       "win_count": 0,
       "loss_count": 0,
       "total_pnl": 0,
-      "open_trades": 2,
+      "open_trades": 1371,
       "win_rate": 0
     },
     {
@@ -179,179 +188,170 @@
       "win_count": 2,
       "loss_count": 0,
       "total_pnl": 50241.65,
-      "open_trades": 3,
+      "open_trades": 454,
       "win_rate": 100.0
-    },
-    {
-      "address": "0x8970b56535153baadee991ca25a178ac085636b5",
-      "total_volume": 1165475.0421999996,
-      "win_count": 0,
-      "loss_count": 0,
-      "total_pnl": 0,
-      "open_trades": 0,
-      "win_rate": 0
     }
   ],
   "trades": [
     {
-      "whale_address": "0x204f72f35326db932158cba6adff0b9a1da95e14",
-      "market_question": "Will Paris Saint-Germain FC win on 2026-01-28?",
+      "whale_address": "0x507e52ef684ca2dd91f90a9d26d149dd3288beae",
+      "market_question": "Will Tottenham Hotspur FC win on 2026-01-28?",
       "side": "YES",
-      "size": 51544.42,
-      "entry_price": 0.6003,
-      "entry_time": "2026-01-28 17:52:16.187965"
+      "size": 57749.6,
+      "entry_price": 0.5714,
+      "entry_time": "2026-01-28 18:51:29.677277"
     },
     {
-      "whale_address": "0xe60a9b0be459d9849bc2339dac20517639ae6a47",
-      "market_question": "Rangers vs. Islanders",
-      "side": "RANGERS",
-      "size": 54756.42,
-      "entry_price": 0.4378,
-      "entry_time": "2026-01-28 16:59:30.083974"
-    },
-    {
-      "whale_address": "0xe60a9b0be459d9849bc2339dac20517639ae6a47",
-      "market_question": "Bulls vs. Pacers",
-      "side": "BULLS",
-      "size": 54828.4468,
-      "entry_price": 0.5506,
-      "entry_time": "2026-01-28 16:59:29.781208"
-    },
-    {
-      "whale_address": "0xe60a9b0be459d9849bc2339dac20517639ae6a47",
-      "market_question": "Mavericks vs. Bucks",
-      "side": "MAVERICKS",
-      "size": 57711.9418,
-      "entry_price": 0.4877,
-      "entry_time": "2026-01-28 16:59:29.494801"
-    },
-    {
-      "whale_address": "0xe60a9b0be459d9849bc2339dac20517639ae6a47",
-      "market_question": "Will FC Bayern M\u00fcnchen win on 2026-01-28?",
-      "side": "YES",
-      "size": 97273.6975,
-      "entry_price": 0.6376,
-      "entry_time": "2026-01-28 16:59:29.205815"
-    },
-    {
-      "whale_address": "0xe60a9b0be459d9849bc2339dac20517639ae6a47",
-      "market_question": "Nuggets vs. Grizzlies",
-      "side": "NUGGETS",
-      "size": 99397.8817,
-      "entry_price": 0.4213,
-      "entry_time": "2026-01-28 16:59:28.908544"
-    },
-    {
-      "whale_address": "0xe60a9b0be459d9849bc2339dac20517639ae6a47",
-      "market_question": "Lakers vs. Cavaliers",
-      "side": "LAKERS",
-      "size": 104824.117,
-      "entry_price": 0.4246,
-      "entry_time": "2026-01-28 16:59:28.625724"
-    },
-    {
-      "whale_address": "0xe60a9b0be459d9849bc2339dac20517639ae6a47",
-      "market_question": "Will Real Madrid CF win on 2026-01-28?",
-      "side": "YES",
-      "size": 163866.3163,
-      "entry_price": 0.5572,
-      "entry_time": "2026-01-28 16:59:28.306102"
-    },
-    {
-      "whale_address": "0xebc0df15e665da95bf819105b723ae90042ffa41",
-      "market_question": "Will JD Vance win the 2028 US Presidential Election?",
+      "whale_address": "0x507e52ef684ca2dd91f90a9d26d149dd3288beae",
+      "market_question": "Will SSC Napoli win on 2026-01-28?",
       "side": "NO",
-      "size": 70000.0,
+      "size": 51323.3333,
+      "entry_price": 0.7296,
+      "entry_time": "2026-01-28 18:37:49.307422"
+    },
+    {
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Will Le Havre AC vs. FC Nantes end in a draw?",
+      "side": "NO",
+      "size": 64076.77,
+      "entry_price": 0.001,
+      "entry_time": "2026-01-28 18:06:42.802997"
+    },
+    {
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Epstein blackmail evidence released by March 31?",
+      "side": "NO",
+      "size": 66884.9382,
+      "entry_price": 0.0924,
+      "entry_time": "2026-01-28 18:06:42.502657"
+    },
+    {
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Will the highest temperature in Toronto be 3\u00b0C on December 17?",
+      "side": "YES",
+      "size": 80894.03,
       "entry_price": 0.5,
-      "entry_time": "2026-01-28 16:59:26.986105"
+      "entry_time": "2026-01-28 18:06:42.204143"
     },
     {
-      "whale_address": "0xebc0df15e665da95bf819105b723ae90042ffa41",
-      "market_question": "Will JD Vance win the 2028 US Presidential Election?",
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Will the US strike Iran next?",
       "side": "YES",
-      "size": 70000.0,
-      "entry_price": 0.5,
-      "entry_time": "2026-01-28 16:59:26.394052"
+      "size": 89799.2899,
+      "entry_price": 0.0454,
+      "entry_time": "2026-01-28 18:06:41.882971"
     },
     {
-      "whale_address": "0x8b71010f8d18ccce16a37434778117ee2d6b8044",
-      "market_question": "Will China invade Taiwan by end of 2026?",
-      "side": "NO",
-      "size": 50000.0,
-      "entry_price": 0.88,
-      "entry_time": "2026-01-28 15:57:45.669286"
-    },
-    {
-      "whale_address": "0x204f72f35326db932158cba6adff0b9a1da95e14",
-      "market_question": "Will Chelsea FC win on 2026-01-28?",
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Will the US strike Iraq next?",
       "side": "YES",
-      "size": 54115.8854,
-      "entry_price": 0.4584,
-      "entry_time": "2026-01-28 15:50:41.405634"
+      "size": 89799.2905,
+      "entry_price": 0.046,
+      "entry_time": "2026-01-28 18:06:41.583297"
     },
     {
-      "whale_address": "0x204f72f35326db932158cba6adff0b9a1da95e14",
-      "market_question": "Will Real Madrid CF win on 2026-01-28?",
-      "side": "NO",
-      "size": 59153.5434,
-      "entry_price": 0.4459,
-      "entry_time": "2026-01-28 15:50:41.107269"
-    },
-    {
-      "whale_address": "0x8b71010f8d18ccce16a37434778117ee2d6b8044",
-      "market_question": "Will Ukraine agree to cede territory to Russia before 2027?",
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Will the US strike Nigeria next?",
       "side": "YES",
-      "size": 53160.7418,
-      "entry_price": 0.4052,
-      "entry_time": "2026-01-28 15:50:39.499157"
+      "size": 89799.2905,
+      "entry_price": 0.0454,
+      "entry_time": "2026-01-28 18:06:41.257918"
     },
     {
-      "whale_address": "0x8b71010f8d18ccce16a37434778117ee2d6b8044",
-      "market_question": "Israel strikes Iran by January 31, 2026?",
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Will the US strike Mexico next?",
       "side": "YES",
-      "size": 60003.3766,
-      "entry_price": 0.2086,
-      "entry_time": "2026-01-28 15:50:39.204271"
+      "size": 89799.2905,
+      "entry_price": 0.0454,
+      "entry_time": "2026-01-28 18:06:40.950052"
     },
     {
-      "whale_address": "0x8b71010f8d18ccce16a37434778117ee2d6b8044",
-      "market_question": "Will Liverpool win the 2025\u201326 Champions League?",
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Will the US strike Syria next?",
       "side": "YES",
-      "size": 71274.8792,
-      "entry_price": 0.0848,
-      "entry_time": "2026-01-28 15:50:38.865277"
+      "size": 89799.2905,
+      "entry_price": 0.0454,
+      "entry_time": "2026-01-28 18:06:40.654444"
     },
     {
-      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
-      "market_question": "Will Trump nominate Bill Pulte as the next Fed chair?",
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Will the US strike Yemen next?",
       "side": "YES",
-      "size": 50000.0,
-      "entry_price": 0.001,
-      "entry_time": "2026-01-28 15:50:37.691230"
+      "size": 89799.2905,
+      "entry_price": 0.1191,
+      "entry_time": "2026-01-28 18:06:40.344332"
     },
     {
-      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
-      "market_question": "Will Kristi Noem win the 2024 Republican VP nomination?",
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Will the US strike Venezuela next?",
       "side": "YES",
-      "size": 50000.0,
-      "entry_price": 0.01,
-      "entry_time": "2026-01-28 15:50:37.403039"
+      "size": 89799.2905,
+      "entry_price": 0.4268,
+      "entry_time": "2026-01-28 18:06:40.039205"
     },
     {
-      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
-      "market_question": "Will Trump nominate Marc Sumerlin as the next Fed chair?",
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Will the US strike Cuba nex",
       "side": "YES",
-      "size": 50000.0,
-      "entry_price": 0.001,
-      "entry_time": "2026-01-28 15:50:37.099576"
+      "size": 89799.2905,
+      "entry_price": 0.046,
+      "entry_time": "2026-01-28 18:06:39.710913"
     },
     {
-      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
-      "market_question": "Will Trump nominate James B. Bullard as the next Fed chair?",
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Will the US strike Colombia next?",
       "side": "YES",
-      "size": 51340.57,
-      "entry_price": 0.001,
-      "entry_time": "2026-01-28 15:50:36.804723"
+      "size": 89799.2905,
+      "entry_price": 0.0454,
+      "entry_time": "2026-01-28 18:06:39.417952"
+    },
+    {
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Will the US strike another country first?",
+      "side": "YES",
+      "size": 89799.2905,
+      "entry_price": 0.046,
+      "entry_time": "2026-01-28 18:06:39.115827"
+    },
+    {
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Will the US not strike another country before 2027?",
+      "side": "YES",
+      "size": 91079.9105,
+      "entry_price": 0.046,
+      "entry_time": "2026-01-28 18:06:38.818992"
+    },
+    {
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Will the highest temperature in Toronto be -1\u00b0C or below on December 17?",
+      "side": "YES",
+      "size": 110193.17,
+      "entry_price": 0.0833,
+      "entry_time": "2026-01-28 18:06:38.512451"
+    },
+    {
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Will the highest temperature in Toronto be 1\u00b0C on December 17?",
+      "side": "YES",
+      "size": 110193.17,
+      "entry_price": 0.0833,
+      "entry_time": "2026-01-28 18:06:38.214977"
+    },
+    {
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Will the highest temperature in Toronto be 2\u00b0C on December 17?",
+      "side": "YES",
+      "size": 110193.17,
+      "entry_price": 0.0833,
+      "entry_time": "2026-01-28 18:06:37.920767"
+    },
+    {
+      "whale_address": "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8",
+      "market_question": "Will the highest temperature in Toronto be 5\u00b0C or higher on December 17?",
+      "side": "YES",
+      "size": 110193.17,
+      "entry_price": 0.0833,
+      "entry_time": "2026-01-28 18:06:37.627941"
     }
   ],
   "resolved_trades": [

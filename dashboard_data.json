@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-01-28T17:26:43.004930",
+  "generated_at": "2026-01-28T18:00:44.922656",
   "stats": {
     "whale_count": 22,
-    "open_trade_count": 1717,
+    "open_trade_count": 4589,
     "resolved_trade_count": 12,
     "market_count": 500,
     "total_wins": 7,
@@ -44,7 +44,7 @@
       "win_count": 0,
       "loss_count": 0,
       "total_pnl": 0,
-      "open_trades": 83,
+      "open_trades": 638,
       "win_rate": 0
     },
     {
@@ -53,7 +53,7 @@
       "win_count": 0,
       "loss_count": 0,
       "total_pnl": 0,
-      "open_trades": 779,
+      "open_trades": 792,
       "win_rate": 0
     },
     {
@@ -107,7 +107,7 @@
       "win_count": 1,
       "loss_count": 1,
       "total_pnl": -4063.34,
-      "open_trades": 7,
+      "open_trades": 1008,
       "win_rate": 50.0
     },
     {
@@ -125,7 +125,7 @@
       "win_count": 2,
       "loss_count": 1,
       "total_pnl": 7862.82,
-      "open_trades": 2,
+      "open_trades": 255,
       "win_rate": 66.7
     },
     {
@@ -134,7 +134,7 @@
       "win_count": 0,
       "loss_count": 0,
       "total_pnl": 0,
-      "open_trades": 0,
+      "open_trades": 522,
       "win_rate": 0
     },
     {
@@ -161,7 +161,7 @@
       "win_count": 0,
       "loss_count": 0,
       "total_pnl": 0,
-      "open_trades": 2,
+      "open_trades": 529,
       "win_rate": 0
     },
     {
@@ -179,7 +179,7 @@
       "win_count": 2,
       "loss_count": 0,
       "total_pnl": 50241.65,
-      "open_trades": 2,
+      "open_trades": 3,
       "win_rate": 100.0
     },
     {
@@ -193,6 +193,14 @@
     }
   ],
   "trades": [
+    {
+      "whale_address": "0x204f72f35326db932158cba6adff0b9a1da95e14",
+      "market_question": "Will Paris Saint-Germain FC win on 2026-01-28?",
+      "side": "YES",
+      "size": 51544.42,
+      "entry_price": 0.6003,
+      "entry_time": "2026-01-28 17:52:16.187965"
+    },
     {
       "whale_address": "0xe60a9b0be459d9849bc2339dac20517639ae6a47",
       "market_question": "Rangers vs. Islanders",
@@ -344,14 +352,6 @@
       "size": 51340.57,
       "entry_price": 0.001,
       "entry_time": "2026-01-28 15:50:36.804723"
-    },
-    {
-      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
-      "market_question": "Fed decreases interest rates by 25 bps after January 2026 meeting?",
-      "side": "YES",
-      "size": 56591.19,
-      "entry_price": 0.0035,
-      "entry_time": "2026-01-28 15:50:36.520495"
     }
   ],
   "resolved_trades": [

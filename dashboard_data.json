@@ -1,0 +1,314 @@
+{
+  "generated_at": "2026-01-28T16:13:05.639077",
+  "stats": {
+    "whale_count": 20,
+    "trade_count": 493,
+    "market_count": 500,
+    "avg_win_rate": 0
+  },
+  "whales": [
+    {
+      "address": "0x8e9eedf20dfa70956d49f608a205e402d9df38e4",
+      "total_volume": 31732536.52347999,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0xcb3143ee858e14d0b3fe40ffeaea78416e646b02",
+      "total_volume": 19862896.7973,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0xd0b4c4c020abdc88ad9a884f999f3d8cff8ffed6",
+      "total_volume": 14042497.490200002,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0xcd91a549956854fdc38efad7e80ff5da8f5432b8",
+      "total_volume": 10918506.529939994,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0xe8dd7741ccb12350957ec71e9ee332e0d1e6ec86",
+      "total_volume": 9299220.357792,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0xa3ad70cf48a2f2b44163e798223c01a2c2536866",
+      "total_volume": 6671406.666560005,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0x507e52ef684ca2dd91f90a9d26d149dd3288beae",
+      "total_volume": 5252649.224099999,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0xa2f1fecf1cc7db65a46588f764b6691533052d22",
+      "total_volume": 5136756.863999999,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0x2005d16a84ceefa912d4e380cd32e7ff827875ea",
+      "total_volume": 5018389.033800004,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
+      "total_volume": 4119604.674,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0x2652dd1140c3b9e69c8852264cf8dbe727672a1d",
+      "total_volume": 2544447.1231,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0x8575467a6743c81ef0a8d06acc76e99b454a87fe",
+      "total_volume": 2332359.33226,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0x23073ad0c9dff45353cedb11760570b995663934",
+      "total_volume": 1525997.1108,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0x7ea571c40408f340c1c8fc8eaacebab53c1bde7b",
+      "total_volume": 1477952.4591000006,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0x8b71010f8d18ccce16a37434778117ee2d6b8044",
+      "total_volume": 1391550.4896,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0x5aa981521b4e94fee3b3bf18fe441f62e865febe",
+      "total_volume": 1387873.0304000007,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0xf42228cbd2e5d38d1263ebf2b14e1a996e5eea56",
+      "total_volume": 1375194.7934999994,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0x8970b56535153baadee991ca25a178ac085636b5",
+      "total_volume": 1165475.0421999996,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0x14619de097b1fbe058d6d36282662c20958a30a1",
+      "total_volume": 1019494.0648000003,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    },
+    {
+      "address": "0x204f72f35326db932158cba6adff0b9a1da95e14",
+      "total_volume": 1017255.8777000002,
+      "win_count": 0,
+      "loss_count": 0,
+      "win_rate": 0
+    }
+  ],
+  "trades": [
+    {
+      "whale_address": "0x8b71010f8d18ccce16a37434778117ee2d6b8044",
+      "market_question": "Will China invade Taiwan by end of 2026?",
+      "side": "NO",
+      "size": 50000.0,
+      "entry_price": 0.88,
+      "entry_time": "2026-01-28 15:57:45.669286"
+    },
+    {
+      "whale_address": "0x204f72f35326db932158cba6adff0b9a1da95e14",
+      "market_question": "Will Chelsea FC win on 2026-01-28?",
+      "side": "YES",
+      "size": 54115.8854,
+      "entry_price": 0.4584,
+      "entry_time": "2026-01-28 15:50:41.405634"
+    },
+    {
+      "whale_address": "0x204f72f35326db932158cba6adff0b9a1da95e14",
+      "market_question": "Will Real Madrid CF win on 2026-01-28?",
+      "side": "NO",
+      "size": 59153.5434,
+      "entry_price": 0.4459,
+      "entry_time": "2026-01-28 15:50:41.107269"
+    },
+    {
+      "whale_address": "0x8b71010f8d18ccce16a37434778117ee2d6b8044",
+      "market_question": "Will Ukraine agree to cede territory to Russia before 2027?",
+      "side": "YES",
+      "size": 53160.7418,
+      "entry_price": 0.4052,
+      "entry_time": "2026-01-28 15:50:39.499157"
+    },
+    {
+      "whale_address": "0x8b71010f8d18ccce16a37434778117ee2d6b8044",
+      "market_question": "Israel strikes Iran by January 31, 2026?",
+      "side": "YES",
+      "size": 60003.3766,
+      "entry_price": 0.2086,
+      "entry_time": "2026-01-28 15:50:39.204271"
+    },
+    {
+      "whale_address": "0x8b71010f8d18ccce16a37434778117ee2d6b8044",
+      "market_question": "Will Liverpool win the 2025\u201326 Champions League?",
+      "side": "YES",
+      "size": 71274.8792,
+      "entry_price": 0.0848,
+      "entry_time": "2026-01-28 15:50:38.865277"
+    },
+    {
+      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
+      "market_question": "Will Trump nominate Bill Pulte as the next Fed chair?",
+      "side": "YES",
+      "size": 50000.0,
+      "entry_price": 0.001,
+      "entry_time": "2026-01-28 15:50:37.691230"
+    },
+    {
+      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
+      "market_question": "Will Kristi Noem win the 2024 Republican VP nomination?",
+      "side": "YES",
+      "size": 50000.0,
+      "entry_price": 0.01,
+      "entry_time": "2026-01-28 15:50:37.403039"
+    },
+    {
+      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
+      "market_question": "Will Trump nominate Marc Sumerlin as the next Fed chair?",
+      "side": "YES",
+      "size": 50000.0,
+      "entry_price": 0.001,
+      "entry_time": "2026-01-28 15:50:37.099576"
+    },
+    {
+      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
+      "market_question": "Will Trump nominate James B. Bullard as the next Fed chair?",
+      "side": "YES",
+      "size": 51340.57,
+      "entry_price": 0.001,
+      "entry_time": "2026-01-28 15:50:36.804723"
+    },
+    {
+      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
+      "market_question": "Fed decreases interest rates by 25 bps after January 2026 meeting?",
+      "side": "YES",
+      "size": 56591.19,
+      "entry_price": 0.0035,
+      "entry_time": "2026-01-28 15:50:36.520495"
+    },
+    {
+      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
+      "market_question": "Will Shai Gilgeous-Alexander win the 2023-24 NBA MVP?",
+      "side": "YES",
+      "size": 60000.0,
+      "entry_price": 0.0029,
+      "entry_time": "2026-01-28 15:50:36.226789"
+    },
+    {
+      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
+      "market_question": "Will Luka Doncic win the 2023-24 NBA MVP?",
+      "side": "YES",
+      "size": 60000.0,
+      "entry_price": 0.0031,
+      "entry_time": "2026-01-28 15:50:35.931402"
+    },
+    {
+      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
+      "market_question": "Will Los Angeles Lakers be 2023-24 NBA Champions?",
+      "side": "YES",
+      "size": 60000.0,
+      "entry_price": 0.0016,
+      "entry_time": "2026-01-28 15:50:35.632165"
+    },
+    {
+      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
+      "market_question": "Will Caleb Williams be taken with the 1st pick in the 2024 NFL Draft?",
+      "side": "NO",
+      "size": 65999.9998,
+      "entry_price": 0.0032,
+      "entry_time": "2026-01-28 15:50:35.338385"
+    },
+    {
+      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
+      "market_question": "Will Trump nominate Arthur Laffer as the next Fed chair?",
+      "side": "YES",
+      "size": 82816.46,
+      "entry_price": 0.001,
+      "entry_time": "2026-01-28 15:50:35.035810"
+    },
+    {
+      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
+      "market_question": "Was Barron involved in $DJT?",
+      "side": "YES",
+      "size": 88000.0,
+      "entry_price": 0.0046,
+      "entry_time": "2026-01-28 15:50:34.747990"
+    },
+    {
+      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
+      "market_question": "Will Trump nominate Jerome Powell as the next Fed chair?",
+      "side": "YES",
+      "size": 100000.0,
+      "entry_price": 0.002,
+      "entry_time": "2026-01-28 15:50:34.452378"
+    },
+    {
+      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
+      "market_question": "Will Robert F. Kennedy Jr. win the 2024 Democratic Presidential Nomination?",
+      "side": "YES",
+      "size": 100000.0,
+      "entry_price": 0.002,
+      "entry_time": "2026-01-28 15:50:34.151872"
+    },
+    {
+      "whale_address": "0x3d43f3dad4112cf2e502d5211bf4c1192d95ac2b",
+      "market_question": "Did Keith Gill (RoaringKitty) sell his X account?",
+      "side": "YES",
+      "size": 107350.2512,
+      "entry_price": 0.0913,
+      "entry_time": "2026-01-28 15:50:33.857108"
+    }
+  ],
+  "new_markets": []
+}

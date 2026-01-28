@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐋 Polymarket Whale Tracker</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 { color: #00d4aa; margin-bottom: 20px; font-size: 1.5rem; }
+        h2 { color: #888; font-size: 1rem; margin: 20px 0 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid #2a2a2a;
+        }
+        .whale-card { border-left: 4px solid #00d4aa; }
+        .market-card { border-left: 4px solid #ffd700; }
+        .stat { display: flex; justify-content: space-between; margin: 8px 0; }
+        .stat-label { color: #888; }
+        .stat-value { font-weight: 600; }
+        .positive { color: #00d4aa; }
+        .negative { color: #ff4757; }
+        .address { font-family: monospace; font-size: 0.85rem; color: #666; }
+        .volume { font-size: 1.2rem; color: #00d4aa; font-weight: bold; }
+        .timestamp { font-size: 0.75rem; color: #555; margin-top: 8px; }
+        .refresh-btn {
+            background: #00d4aa;
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .stats-grid .card {
+            text-align: center;
+            padding: 20px;
+        }
+        .big-number { font-size: 2rem; font-weight: bold; color: #00d4aa; }
+        .loading { text-align: center; padding: 40px; color: #666; }
+    </style>
+</head>
+<body>
+    <h1>🐋 Polymarket Whale Tracker</h1>
+    
+    <div class="stats-grid">
+        <div class="card">
+            <div class="big-number" id="whale-count">-</div>
+            <div class="stat-label">Whales Tracked</div>
+        </div>
+        <div class="card">
+            <div class="big-number" id="trade-count">-</div>
+            <div class="stat-label">Open Trades</div>
+        </div>
+        <div class="card">
+            <div class="big-number" id="market-count">-</div>
+            <div class="stat-label">Markets Indexed</div>
+        </div>
+        <div class="card">
+            <div class="big-number" id="win-rate">-</div>
+            <div class="stat-label">Avg Win Rate</div>
+        </div>
+    </div>
+
+    <h2>🐋 Top Whales</h2>
+    <div id="whales-container">
+        <div class="loading">Loading whale data...</div>
+    </div>
+
+    <h2>📊 Recent Trades</h2>
+    <div id="trades-container">
+        <div class="loading">Loading trade data...</div>
+    </div>
+
+    <h2>🚨 New Markets (Last 24h)</h2>
+    <div id="markets-container">
+        <div class="loading">Loading market data...</div>
+    </div>
+
+    <button class="refresh-btn" onclick="loadData()">Refresh Data</button>
+    
+    <div class="timestamp" id="last-updated"></div>
+
+    <script>
+        // This dashboard reads from a JSON file that the Python script generates
+        async function loadData() {
+            try {
+                const response = await fetch('dashboard_data.json?' + Date.now());
+                const data = await response.json();
+                renderData(data);
+            } catch (e) {
+                console.error('Error loading data:', e);
+                document.getElementById('whales-container').innerHTML = 
+                    '<div class="card">Unable to load data. Make sure dashboard_data.json exists.</div>';
+            }
+        }
+
+        function renderData(data) {
+            // Stats
+            document.getElementById('whale-count').textContent = data.stats?.whale_count || 0;
+            document.getElementById('trade-count').textContent = data.stats?.trade_count || 0;
+            document.getElementById('market-count').textContent = data.stats?.market_count || 0;
+            document.getElementById('win-rate').textContent = (data.stats?.avg_win_rate || 0) + '%';
+
+            // Whales
+            const whalesHtml = (data.whales || []).map(w => `
+                <div class="card whale-card">
+                    <div class="volume">$${(w.total_volume || 0).toLocaleString()}</div>
+                    <div class="address">${w.address}</div>
+                    <div class="stat">
+                        <span class="stat-label">Win Rate</span>
+                        <span class="stat-value ${w.win_rate > 50 ? 'positive' : ''}">${w.win_rate || 0}% (${w.win_count || 0}W-${w.loss_count || 0}L)</span>
+                    </div>
+                </div>
+            `).join('') || '<div class="card">No whales tracked yet</div>';
+            document.getElementById('whales-container').innerHTML = whalesHtml;
+
+            // Trades
+            const tradesHtml = (data.trades || []).slice(0, 10).map(t => `
+                <div class="card">
+                    <div class="stat">
+                        <span class="stat-label">${t.side}</span>
+                        <span class="stat-value">$${(t.size || 0).toLocaleString()}</span>
+                    </div>
+                    <div style="font-size: 0.9rem; color: #ccc;">${(t.market_question || '').slice(0, 60)}...</div>
+                    <div class="address">${t.whale_address?.slice(0, 10)}...</div>
+                </div>
+            `).join('') || '<div class="card">No trades tracked yet</div>';
+            document.getElementById('trades-container').innerHTML = tradesHtml;
+
+            // New Markets
+            const marketsHtml = (data.new_markets || []).slice(0, 10).map(m => `
+                <div class="card market-card">
+                    <div style="font-size: 0.95rem; margin-bottom: 8px;">${(m.question || '').slice(0, 80)}</div>
+                    <div class="stat">
+                        <span class="stat-label">Entry Price</span>
+                        <span class="stat-value">$${(m.initial_yes_price || 0).toFixed(2)}</span>
+                    </div>
+                    ${m.price_24hr_yes ? `
+                    <div class="stat">
+                        <span class="stat-label">24h Price</span>
+                        <span class="stat-value ${m.price_24hr_yes > m.initial_yes_price ? 'positive' : 'negative'}">
+                            $${m.price_24hr_yes.toFixed(2)} 
+                            (${((m.price_24hr_yes - m.initial_yes_price) / m.initial_yes_price * 100).toFixed(1)}%)
+                        </span>
+                    </div>
+                    ` : ''}
+                    <a href="https://polymarket.com/event/${m.slug}" target="_blank" style="color: #00d4aa; font-size: 0.8rem;">View on Polymarket →</a>
+                </div>
+            `).join('') || '<div class="card">No new markets in last 24h</div>';
+            document.getElementById('markets-container').innerHTML = marketsHtml;
+
+            document.getElementById('last-updated').textContent = 'Last updated: ' + new Date().toLocaleString();
+        }
+
+        // Load on page load
+        loadData();
+        // Auto-refresh every 5 minutes
+        setInterval(loadData, 300000);
+    </script>
+</body>
+</html>

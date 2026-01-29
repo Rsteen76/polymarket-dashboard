@@ -10,6 +10,8 @@ services:
       - ./data:/app/data
       - ./config.json:/app/config.json:ro
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       - TZ=America/Los_Angeles
 
@@ -52,7 +54,6 @@ services:
     volumes:
       - ./data:/app/data
       - ./public:/app/public
-      - ./config.json:/app/config.json:ro
     command: >
       sh -c "while true; do
         echo '[Alerts] Checking for signals...';
@@ -60,6 +61,8 @@ services:
         sleep 600;
       done"
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       - TZ=America/Los_Angeles
 
@@ -92,6 +95,8 @@ services:
     command: >
       sh -c "pip install schedule && python alpha_scanner.py schedule"
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       - TZ=America/Los_Angeles
 

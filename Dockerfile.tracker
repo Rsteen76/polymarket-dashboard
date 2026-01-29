@@ -1,0 +1,23 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Install dependencies
+RUN pip install --no-cache-dir requests aiohttp schedule beautifulsoup4
+
+# Copy Python scripts
+COPY tracker.py .
+COPY database.py .
+COPY polymarket_api.py .
+COPY alerts.py .
+COPY generate_dashboard.py .
+COPY generate_dashboard_v2.py .
+COPY alert_bot.py .
+COPY resolution_checker.py .
+COPY dashboard.html .
+COPY alpha_scanner.py .
+COPY paper_trading_tracker.py .
+COPY weather_arbitrage.py .
+
+# Default command - run tracker
+CMD ["python", "tracker.py"]

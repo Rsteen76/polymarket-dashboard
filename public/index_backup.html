@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polymarket Smart Money Dashboard</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #00d4aa;
+            margin-bottom: 8px;
+            font-size: 1.8rem;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: #1a1a1a;
+            border-radius: 12px 12px 0 0;
+            border: 1px solid #2a2a2a;
+            overflow-x: auto;
+        }
+        .tab {
+            padding: 16px 24px;
+            cursor: pointer;
+            color: #888;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .tab:hover {
+            color: #00d4aa;
+            background: rgba(0, 212, 170, 0.05);
+        }
+        .tab.active {
+            color: #00d4aa;
+            border-bottom-color: #00d4aa;
+            background: rgba(0, 212, 170, 0.1);
+        }
+        .tab.signal {
+            position: relative;
+        }
+        .tab.signal::after {
+            content: '🔥';
+            margin-left: 8px;
+        }
+        
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            background: #111;
+            border: 1px solid #2a2a2a;
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            min-height: 600px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Filters */
+        .filters {
+            background: #1a1a1a;
+            padding: 16px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .filter-label {
+            font-size: 0.75rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .filter-input {
+            background: #252525;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: #e0e0e0;
+            font-size: 0.9rem;
+            width: 120px;
+        }
+        .filter-input:focus {
+            outline: none;
+            border-color: #00d4aa;
+        }
+        .toggle-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .toggle {
+            width: 44px;
+            height: 24px;
+            background: #333;
+            border-radius: 12px;
+            position: relative;
+            transition: background 0.2s;
+        }
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: #888;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: all 0.2s;
+        }
+        .toggle.active {
+            background: #00d4aa;
+        }
+        .toggle.active::after {
+            left: 23px;
+            background: #fff;
+        }
+        .toggle-text {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        .count-display {
+            margin-left: auto;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        .count-display span {
+            color: #00d4aa;
+            font-weight: 600;
+        }
+        
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            height: calc(100vh - 300px);
+            min-height: 400px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #1f1f1f;
+        }
+        th {
+            background: #1a1a1a;
+            color: #888;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+            transition: color 0.2s;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        th:hover {
+            color: #00d4aa;
+        }
+        th.sorted {
+            color: #00d4aa;
+        }
+        th .sort-arrow {
+            margin-left: 6px;
+            opacity: 0.3;
+        }
+        th.sorted .sort-arrow {
+            opacity: 1;
+        }
+        tr {
+            transition: background 0.2s;
+        }
+        tr:hover {
+            background: #1a1a1a;
+        }
+        
+        /* Row Colors */
+        tr.skill-high {
+            background: rgba(0, 212, 170, 0.1);
+        }
+        tr.skill-medium {
+            background: rgba(255, 193, 7, 0.1);
+        }
+        tr.skill-low {
+            background: rgba(255, 71, 87, 0.1);
+        }
+        tr.consensus-strong {
+            background: rgba(255, 165, 0, 0.15);
+            border-left: 4px solid #ffa500;
+        }
+        
+        /* Cell Styles */
+        .address {
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #888;
+        }
+        .address:hover {
+            color: #00d4aa;
+        }
+        .skill-score {
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            min-width: 60px;
+            text-align: center;
+            color: #fff;
+        }
+        .skill-score.high {
+            background: #00d4aa;
+        }
+        .skill-score.medium {
+            background: #ffc107;
+            color: #000;
+        }
+        .skill-score.low {
+            background: #ff4757;
+        }
+        .win-rate {
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            min-width: 60px;
+            text-align: center;
+        }
+        .win-rate.high {
+            background: rgba(0, 212, 170, 0.15);
+            color: #00d4aa;
+        }
+        .win-rate.low {
+            background: rgba(255, 71, 87, 0.15);
+            color: #ff4757;
+        }
+        .win-rate.neutral {
+            background: rgba(136, 136, 136, 0.15);
+            color: #888;
+        }
+        .pnl {
+            font-weight: 600;
+        }
+        .pnl.positive {
+            color: #00d4aa;
+        }
+        .pnl.negative {
+            color: #ff4757;
+        }
+        .pnl.zero {
+            color: #555;
+        }
+        .volume {
+            font-weight: 600;
+            color: #fff;
+        }
+        .trades-count {
+            color: #aaa;
+        }
+        .open-trades {
+            color: #ffd700;
+            font-weight: 500;
+        }
+        .open-trades.zero {
+            color: #444;
+        }
+        .whale-consensus {
+            font-weight: 600;
+            color: #ffa500;
+        }
+        .whale-consensus.strong {
+            color: #ff6b35;
+        }
+        .whale-list {
+            font-size: 0.85rem;
+            color: #888;
+        }
+        .whale-badge {
+            display: inline-block;
+            background: #333;
+            color: #00d4aa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            margin-right: 6px;
+        }
+        .whale-badge.skilled {
+            background: #00d4aa;
+            color: #000;
+        }
+        .time-ago {
+            color: #888;
+            font-size: 0.85rem;
+        }
+        .side {
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .side.yes {
+            background: rgba(0, 212, 170, 0.2);
+            color: #00d4aa;
+        }
+        .side.no {
+            background: rgba(255, 71, 87, 0.2);
+            color: #ff4757;
+        }
+        .side.under {
+            background: rgba(255, 71, 87, 0.2);
+            color: #ff4757;
+        }
+        .side.over {
+            background: rgba(0, 212, 170, 0.2);
+            color: #00d4aa;
+        }
+        .market-name {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        /* No results */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #555;
+        }
+        .no-results-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #555;
+        }
+        
+        /* Status indicators */
+        .signal-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .signal-indicator.strong {
+            background: #ff6b35;
+            box-shadow: 0 0 8px rgba(255, 107, 53, 0.5);
+        }
+        .signal-indicator.medium {
+            background: #ffc107;
+        }
+        .signal-indicator.weak {
+            background: #666;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 12px;
+            }
+            .filters {
+                padding: 12px;
+                gap: 12px;
+            }
+            .filter-input {
+                width: 100px;
+            }
+            .count-display {
+                width: 100%;
+                margin-left: 0;
+                margin-top: 8px;
+                padding-top: 12px;
+                border-top: 1px solid #2a2a2a;
+            }
+            th, td {
+                padding: 8px 12px;
+            }
+            .tab {
+                padding: 12px 16px;
+            }
+            table {
+                min-width: 700px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐋 Polymarket Smart Money Dashboard</h1>
+        <p class="subtitle">Follow the skilled whales, fade the losers, find the consensus signals.</p>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="leaderboard">Smart Money Leaderboard</div>
+            <div class="tab signal" data-tab="hot-markets">Hot Markets</div>
+            <div class="tab" data-tab="recent-moves">Recent Moves</div>
+            <div class="tab" data-tab="fade-losers">Fade the Losers</div>
+        </div>
+        
+        <!-- Tab 1: Smart Money Leaderboard -->
+        <div class="tab-content active" id="leaderboard">
+            <div class="filters">
+                <div class="filter-group">
+                    <span class="filter-label">Min Trades</span>
+                    <input type="number" class="filter-input" id="minTrades" value="1" min="0">
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">Min Win Rate %</span>
+                    <input type="number" class="filter-input" id="minWinRate" value="0" min="0" max="100">
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">Min P&L $</span>
+                    <input type="number" class="filter-input" id="minPnl" value="-999999" step="1000">
+                </div>
+                <div class="count-display">
+                    Showing <span id="leaderboardCount">0</span> whales
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-sort="address">Wallet</th>
+                            <th data-sort="skill_score" class="sorted">Score <span class="sort-arrow">▼</span></th>
+                            <th data-sort="win_rate">Win Rate <span class="sort-arrow">▼</span></th>
+                            <th data-sort="total_pnl">P&L <span class="sort-arrow">▼</span></th>
+                            <th data-sort="resolved_count">Resolved <span class="sort-arrow">▼</span></th>
+                            <th data-sort="open_trades">Open <span class="sort-arrow">▼</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardTable">
+                        <tr><td colspan="6" class="loading">Loading data...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Tab 2: Hot Markets -->
+        <div class="tab-content" id="hot-markets">
+            <div class="filters">
+                <div class="filter-group">
+                    <span class="filter-label">Min Whales</span>
+                    <input type="number" class="filter-input" id="minWhales" value="2" min="1">
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">Skilled Only</span>
+                    <div class="toggle-wrapper" onclick="toggleSkilledOnly()">
+                        <div class="toggle active" id="skilledOnlyToggle"></div>
+                        <span class="toggle-text">Score > 50</span>
+                    </div>
+                </div>
+                <div class="count-display">
+                    Showing <span id="marketsCount">0</span> markets
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-sort="market_question">Market</th>
+                            <th data-sort="consensus_strength" class="sorted">Consensus <span class="sort-arrow">▼</span></th>
+                            <th data-sort="avg_entry">Avg Entry <span class="sort-arrow">▼</span></th>
+                            <th data-sort="whale_count">Whales <span class="sort-arrow">▼</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="marketsTable">
+                        <tr><td colspan="4" class="loading">Loading data...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Tab 3: Recent Moves -->
+        <div class="tab-content" id="recent-moves">
+            <div class="filters">
+                <div class="filter-group">
+                    <span class="filter-label">Skilled Only</span>
+                    <div class="toggle-wrapper" onclick="toggleMovesSkilled()">
+                        <div class="toggle active" id="movesSkilledToggle"></div>
+                        <span class="toggle-text">Score > 50</span>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">Min Size $</span>
+                    <input type="number" class="filter-input" id="minSize" value="1000" step="1000">
+                </div>
+                <div class="count-display">
+                    Showing <span id="movesCount">0</span> moves
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-sort="entry_time" class="sorted">Time <span class="sort-arrow">▼</span></th>
+                            <th data-sort="whale_address">Whale</th>
+                            <th data-sort="market_question">Market</th>
+                            <th data-sort="side">Side <span class="sort-arrow">▼</span></th>
+                            <th data-sort="size">Size <span class="sort-arrow">▼</span></th>
+                            <th data-sort="entry_price">Entry <span class="sort-arrow">▼</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="movesTable">
+                        <tr><td colspan="6" class="loading">Loading data...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Tab 4: Fade the Losers -->
+        <div class="tab-content" id="fade-losers">
+            <div class="filters">
+                <div class="filter-group">
+                    <span class="filter-label">Max Win Rate %</span>
+                    <input type="number" class="filter-input" id="maxWinRate" value="45" min="0" max="100">
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">Min Trades</span>
+                    <input type="number" class="filter-input" id="fadeMinTrades" value="3" min="1">
+                </div>
+                <div class="count-display">
+                    Showing <span id="fadeCount">0</span> fade opportunities
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-sort="whale_address">Loser Whale</th>
+                            <th data-sort="win_rate" class="sorted">Win Rate <span class="sort-arrow">▼</span></th>
+                            <th data-sort="total_pnl">P&L <span class="sort-arrow">▼</span></th>
+                            <th data-sort="market_question">Their Position</th>
+                            <th data-sort="side">Side <span class="sort-arrow">▼</span></th>
+                            <th data-sort="size">Size <span class="sort-arrow">▼</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="fadeTable">
+                        <tr><td colspan="6" class="loading">Loading data...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let dashboardData = {};
+        let currentTab = 'leaderboard';
+        let sortField = 'skill_score';
+        let sortDir = 'desc';
+        
+        // State variables
+        let skilledOnlyMarkets = true;
+        let movesSkilledOnly = true;
+        
+        // Format functions
+        function formatVolume(vol) {
+            if (vol >= 1e6) return '$' + (vol / 1e6).toFixed(1) + 'M';
+            if (vol >= 1e3) return '$' + (vol / 1e3).toFixed(0) + 'K';
+            return '$' + vol.toFixed(0);
+        }
+        
+        function formatPnl(pnl) {
+            const sign = pnl > 0 ? '+' : '';
+            const cls = pnl > 0 ? 'positive' : (pnl < 0 ? 'negative' : 'zero');
+            const formatted = Math.abs(pnl) >= 1e6 
+                ? '$' + (Math.abs(pnl) / 1e6).toFixed(2) + 'M'
+                : Math.abs(pnl) >= 1e3
+                    ? '$' + (Math.abs(pnl) / 1e3).toFixed(1) + 'K'
+                    : '$' + Math.abs(pnl).toFixed(0);
+            return `<span class="pnl ${cls}">${sign}${pnl < 0 ? '-' : ''}${formatted.replace('$', pnl < 0 ? '$' : '$')}</span>`;
+        }
+        
+        function formatAddress(addr) {
+            return addr.slice(0, 6) + '...' + addr.slice(-4);
+        }
+        
+        function formatTime(timeStr) {
+            const time = new Date(timeStr);
+            const now = new Date();
+            const diffMs = now - time;
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const diffMins = Math.floor(diffMs / (1000 * 60));
+            
+            if (diffHours > 24) {
+                const diffDays = Math.floor(diffHours / 24);
+                return diffDays + 'd ago';
+            } else if (diffHours > 0) {
+                return diffHours + 'h ago';
+            } else if (diffMins > 0) {
+                return diffMins + 'm ago';
+            } else {
+                return 'Just now';
+            }
+        }
+        
+        function getWinRateClass(rate, resolved) {
+            if (resolved === 0) return 'neutral';
+            if (rate >= 60) return 'high';
+            if (rate < 45) return 'low';
+            return 'neutral';
+        }
+        
+        function getSkillClass(score) {
+            if (score >= 60) return 'high';
+            if (score >= 40) return 'medium';
+            return 'low';
+        }
+        
+        function getSideClass(side) {
+            return side.toLowerCase().replace(/\s+/g, '-');
+        }
+        
+        // Calculate skill score
+        function calculateSkillScore(whale) {
+            const resolvedTrades = (whale.win_count || 0) + (whale.loss_count || 0);
+            if (resolvedTrades === 0) return 0;
+            
+            const winRate = whale.win_rate || 0;
+            const pnl = whale.total_pnl || 0;
+            
+            // Normalize P&L (simple approach - could be improved)
+            const maxPnl = Math.max(...dashboardData.whales.map(w => Math.abs(w.total_pnl || 0)));
+            const normalizedPnl = maxPnl > 0 ? (pnl / maxPnl) * 100 : 0;
+            
+            const tradeBonusMultiplier = Math.min(resolvedTrades / 10, 1);
+            
+            const score = (winRate * 0.4) + (Math.max(normalizedPnl, -100) * 0.3) + (tradeBonusMultiplier * 30);
+            return Math.max(0, Math.min(100, score));
+        }
+        
+        // Enhanced whales with calculated fields
+        function enhanceWhales(whales) {
+            return whales.map(whale => {
+                const resolvedTrades = (whale.win_count || 0) + (whale.loss_count || 0);
+                const skillScore = calculateSkillScore(whale);
+                return {
+                    ...whale,
+                    resolved_count: resolvedTrades,
+                    skill_score: skillScore,
+                    is_skilled: skillScore > 50
+                };
+            });
+        }
+        
+        // Group trades by market for hot markets view
+        function groupTradesByMarket(trades, whales) {
+            const markets = {};
+            const whaleMap = new Map(whales.map(w => [w.address, w]));
+            
+            trades.forEach(trade => {
+                const whale = whaleMap.get(trade.whale_address);
+                if (!whale) return;
+                
+                if (!markets[trade.market_question]) {
+                    markets[trade.market_question] = {
+                        market_question: trade.market_question,
+                        whales: [],
+                        sides: { YES: 0, NO: 0, OVER: 0, UNDER: 0 },
+                        total_size: 0,
+                        avg_entry: 0,
+                        whale_count: 0,
+                        skilled_count: 0
+                    };
+                }
+                
+                const market = markets[trade.market_question];
+                market.whales.push({ ...trade, whale: whale });
+                market.sides[trade.side] = (market.sides[trade.side] || 0) + 1;
+                market.total_size += trade.size;
+                market.whale_count++;
+                if (whale.is_skilled) market.skilled_count++;
+            });
+            
+            // Calculate consensus strength and avg entry
+            Object.values(markets).forEach(market => {
+                if (market.whale_count > 0) {
+                    market.avg_entry = market.total_size > 0 
+                        ? market.whales.reduce((sum, w) => sum + (w.entry_price * w.size), 0) / market.total_size
+                        : 0;
+                    
+                    const maxSide = Math.max(...Object.values(market.sides));
+                    market.consensus_strength = market.whale_count > 1 ? (maxSide / market.whale_count) * 100 : 0;
+                    
+                    // Format consensus string
+                    const sideStrings = Object.entries(market.sides)
+                        .filter(([side, count]) => count > 0)
+                        .map(([side, count]) => `${count} ${side}`)
+                        .join(' / ');
+                    market.consensus_display = sideStrings;
+                    
+                    // Strong signal if 3+ whales agree
+                    market.is_strong_signal = maxSide >= 3;
+                }
+            });
+            
+            return Object.values(markets);
+        }
+        
+        // Render leaderboard
+        function renderLeaderboard() {
+            const minTrades = parseInt(document.getElementById('minTrades').value) || 0;
+            const minWinRate = parseFloat(document.getElementById('minWinRate').value) || 0;
+            const minPnl = parseFloat(document.getElementById('minPnl').value) || -999999;
+            
+            let filtered = dashboardData.enhanced_whales.filter(w => {
+                return w.resolved_count >= minTrades && 
+                       w.win_rate >= minWinRate && 
+                       (w.total_pnl || 0) >= minPnl;
+            });
+            
+            // Sort
+            filtered.sort((a, b) => {
+                let aVal = a[sortField] || 0;
+                let bVal = b[sortField] || 0;
+                if (sortField === 'address') {
+                    return sortDir === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+                }
+                return sortDir === 'asc' ? aVal - bVal : bVal - aVal;
+            });
+            
+            document.getElementById('leaderboardCount').textContent = filtered.length;
+            
+            if (filtered.length === 0) {
+                document.getElementById('leaderboardTable').innerHTML = 
+                    '<tr><td colspan="6" class="no-results"><div class="no-results-icon">🔍</div>No whales match your filters</td></tr>';
+                return;
+            }
+            
+            const html = filtered.map(w => {
+                const skillClass = getSkillClass(w.skill_score);
+                const winRateClass = getWinRateClass(w.win_rate, w.resolved_count);
+                const openClass = (w.open_trades || 0) === 0 ? 'zero' : '';
+                
+                return `<tr class="skill-${skillClass}">
+                    <td><span class="address">${formatAddress(w.address)}</span></td>
+                    <td><span class="skill-score ${skillClass}">${w.skill_score.toFixed(1)}</span></td>
+                    <td><span class="win-rate ${winRateClass}">${w.resolved_count > 0 ? w.win_rate.toFixed(1) + '%' : '—'}</span></td>
+                    <td>${formatPnl(w.total_pnl)}</td>
+                    <td><span class="trades-count">${w.win_count || 0}W / ${w.loss_count || 0}L</span></td>
+                    <td><span class="open-trades ${openClass}">${w.open_trades || 0}</span></td>
+                </tr>`;
+            }).join('');
+            
+            document.getElementById('leaderboardTable').innerHTML = html;
+        }
+        
+        // Render hot markets
+        function renderHotMarkets() {
+            const minWhales = parseInt(document.getElementById('minWhales').value) || 2;
+            
+            let filtered = dashboardData.markets.filter(m => {
+                const whaleCount = skilledOnlyMarkets ? m.skilled_count : m.whale_count;
+                return whaleCount >= minWhales;
+            });
+            
+            // Sort
+            filtered.sort((a, b) => {
+                let aVal = a[sortField] || 0;
+                let bVal = b[sortField] || 0;
+                if (sortField === 'market_question') {
+                    return sortDir === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+                }
+                return sortDir === 'asc' ? aVal - bVal : bVal - aVal;
+            });
+            
+            document.getElementById('marketsCount').textContent = filtered.length;
+            
+            if (filtered.length === 0) {
+                document.getElementById('marketsTable').innerHTML = 
+                    '<tr><td colspan="4" class="no-results"><div class="no-results-icon">📊</div>No markets match your filters</td></tr>';
+                return;
+            }
+            
+            const html = filtered.map(m => {
+                const strongSignal = m.is_strong_signal;
+                const rowClass = strongSignal ? 'consensus-strong' : '';
+                const indicator = strongSignal ? '<span class="signal-indicator strong"></span>' : '<span class="signal-indicator weak"></span>';
+                
+                const whaleList = m.whales.slice(0, 3).map(w => {
+                    const whale = w.whale;
+                    const badge = whale.is_skilled ? 'skilled' : '';
+                    return `<span class="whale-badge ${badge}">${formatAddress(whale.address)}</span>`;
+                }).join('');
+                
+                return `<tr class="${rowClass}">
+                    <td><div class="market-name">${indicator}${m.market_question}</div></td>
+                    <td><span class="whale-consensus ${strongSignal ? 'strong' : ''}">${m.consensus_display}</span></td>
+                    <td>$${m.avg_entry.toFixed(3)}</td>
+                    <td>${skilledOnlyMarkets ? m.skilled_count : m.whale_count} whales<br><div class="whale-list">${whaleList}</div></td>
+                </tr>`;
+            }).join('');
+            
+            document.getElementById('marketsTable').innerHTML = html;
+        }
+        
+        // Render recent moves
+        function renderRecentMoves() {
+            const minSize = parseFloat(document.getElementById('minSize').value) || 0;
+            const whaleMap = new Map(dashboardData.enhanced_whales.map(w => [w.address, w]));
+            
+            let filtered = dashboardData.trades.filter(t => {
+                const whale = whaleMap.get(t.whale_address);
+                if (!whale) return false;
+                if (movesSkilledOnly && !whale.is_skilled) return false;
+                return t.size >= minSize;
+            }).slice(0, 100); // Limit to 100 most recent
+            
+            // Sort by time (most recent first)
+            filtered.sort((a, b) => new Date(b.entry_time) - new Date(a.entry_time));
+            
+            document.getElementById('movesCount').textContent = filtered.length;
+            
+            if (filtered.length === 0) {
+                document.getElementById('movesTable').innerHTML = 
+                    '<tr><td colspan="6" class="no-results"><div class="no-results-icon">📈</div>No moves match your filters</td></tr>';
+                return;
+            }
+            
+            const html = filtered.map(t => {
+                const whale = whaleMap.get(t.whale_address);
+                const sideClass = getSideClass(t.side);
+                const badge = whale.is_skilled ? 'skilled' : '';
+                
+                return `<tr>
+                    <td><span class="time-ago">${formatTime(t.entry_time)}</span></td>
+                    <td><span class="whale-badge ${badge}">${formatAddress(t.whale_address)}</span></td>
+                    <td><div class="market-name">${t.market_question}</div></td>
+                    <td><span class="side ${sideClass}">${t.side}</span></td>
+                    <td><span class="volume">${formatVolume(t.size)}</span></td>
+                    <td>$${t.entry_price.toFixed(3)}</td>
+                </tr>`;
+            }).join('');
+            
+            document.getElementById('movesTable').innerHTML = html;
+        }
+        
+        // Render fade the losers
+        function renderFadeTheLosers() {
+            const maxWinRate = parseFloat(document.getElementById('maxWinRate').value) || 45;
+            const minTrades = parseInt(document.getElementById('fadeMinTrades').value) || 3;
+            
+            // Find loser whales with negative P&L and low win rate
+            const loserWhales = dashboardData.enhanced_whales.filter(w => {
+                return w.resolved_count >= minTrades && 
+                       w.win_rate <= maxWinRate && 
+                       (w.total_pnl || 0) < 0;
+            });
+            
+            // Get their current positions
+            const whaleMap = new Map(loserWhales.map(w => [w.address, w]));
+            const fadeOpportunities = dashboardData.trades.filter(t => whaleMap.has(t.whale_address));
+            
+            document.getElementById('fadeCount').textContent = fadeOpportunities.length;
+            
+            if (fadeOpportunities.length === 0) {
+                document.getElementById('fadeTable').innerHTML = 
+                    '<tr><td colspan="6" class="no-results"><div class="no-results-icon">💸</div>No fade opportunities found</td></tr>';
+                return;
+            }
+            
+            const html = fadeOpportunities.map(t => {
+                const whale = whaleMap.get(t.whale_address);
+                const sideClass = getSideClass(t.side);
+                
+                return `<tr class="skill-low">
+                    <td><span class="address">${formatAddress(whale.address)}</span></td>
+                    <td><span class="win-rate low">${whale.win_rate.toFixed(1)}%</span></td>
+                    <td>${formatPnl(whale.total_pnl)}</td>
+                    <td><div class="market-name">${t.market_question}</div></td>
+                    <td><span class="side ${sideClass}">${t.side}</span></td>
+                    <td><span class="volume">${formatVolume(t.size)}</span></td>
+                </tr>`;
+            }).join('');
+            
+            document.getElementById('fadeTable').innerHTML = html;
+        }
+        
+        // Tab switching
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.tab === tabName);
+            });
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.toggle('active', content.id === tabName);
+            });
+            
+            currentTab = tabName;
+            
+            // Reset sort for new tab
+            sortField = tabName === 'leaderboard' ? 'skill_score' : 
+                       tabName === 'hot-markets' ? 'consensus_strength' :
+                       tabName === 'recent-moves' ? 'entry_time' : 'win_rate';
+            sortDir = 'desc';
+            
+            // Render appropriate view
+            switch(tabName) {
+                case 'leaderboard':
+                    renderLeaderboard();
+                    break;
+                case 'hot-markets':
+                    renderHotMarkets();
+                    break;
+                case 'recent-moves':
+                    renderRecentMoves();
+                    break;
+                case 'fade-losers':
+                    renderFadeTheLosers();
+                    break;
+            }
+        }
+        
+        // Toggle functions
+        function toggleSkilledOnly() {
+            skilledOnlyMarkets = !skilledOnlyMarkets;
+            document.getElementById('skilledOnlyToggle').classList.toggle('active', skilledOnlyMarkets);
+            renderHotMarkets();
+        }
+        
+        function toggleMovesSkilled() {
+            movesSkilledOnly = !movesSkilledOnly;
+            document.getElementById('movesSkilledToggle').classList.toggle('active', movesSkilledOnly);
+            renderRecentMoves();
+        }
+        
+        // Event listeners
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+        });
+        
+        // Filter inputs
+        document.getElementById('minTrades').addEventListener('input', renderLeaderboard);
+        document.getElementById('minWinRate').addEventListener('input', renderLeaderboard);
+        document.getElementById('minPnl').addEventListener('input', renderLeaderboard);
+        document.getElementById('minWhales').addEventListener('input', renderHotMarkets);
+        document.getElementById('minSize').addEventListener('input', renderRecentMoves);
+        document.getElementById('maxWinRate').addEventListener('input', renderFadeTheLosers);
+        document.getElementById('fadeMinTrades').addEventListener('input', renderFadeTheLosers);
+        
+        // Load and process data
+        async function loadData() {
+            try {
+                const response = await fetch('dashboard_data.json?' + Date.now());
+                dashboardData = await response.json();
+                
+                // Enhance whales with calculated fields
+                dashboardData.enhanced_whales = enhanceWhales(dashboardData.whales || []);
+                
+                // Process markets
+                dashboardData.markets = groupTradesByMarket(dashboardData.trades || [], dashboardData.enhanced_whales);
+                
+                // Render current tab
+                switch(currentTab) {
+                    case 'leaderboard':
+                        renderLeaderboard();
+                        break;
+                    case 'hot-markets':
+                        renderHotMarkets();
+                        break;
+                    case 'recent-moves':
+                        renderRecentMoves();
+                        break;
+                    case 'fade-losers':
+                        renderFadeTheLosers();
+                        break;
+                }
+                
+            } catch (e) {
+                console.error('Error loading data:', e);
+                document.querySelectorAll('tbody').forEach(tbody => {
+                    tbody.innerHTML = '<tr><td colspan="6" class="loading">Unable to load data</td></tr>';
+                });
+            }
+        }
+        
+        // Sort handlers (will be attached dynamically)
+        function attachSortHandlers() {
+            document.querySelectorAll('th[data-sort]').forEach(th => {
+                th.addEventListener('click', () => {
+                    const field = th.dataset.sort;
+                    if (sortField === field) {
+                        sortDir = sortDir === 'desc' ? 'asc' : 'desc';
+                    } else {
+                        sortField = field;
+                        sortDir = 'desc';
+                    }
+                    
+                    // Update UI
+                    th.closest('thead').querySelectorAll('th').forEach(h => {
+                        h.classList.remove('sorted');
+                        const arrow = h.querySelector('.sort-arrow');
+                        if (arrow) arrow.textContent = '▼';
+                    });
+                    th.classList.add('sorted');
+                    const arrow = th.querySelector('.sort-arrow');
+                    if (arrow) arrow.textContent = sortDir === 'desc' ? '▼' : '▲';
+                    
+                    // Re-render current tab
+                    switch(currentTab) {
+                        case 'leaderboard':
+                            renderLeaderboard();
+                            break;
+                        case 'hot-markets':
+                            renderHotMarkets();
+                            break;
+                        case 'recent-moves':
+                            renderRecentMoves();
+                            break;
+                        case 'fade-losers':
+                            renderFadeTheLosers();
+                            break;
+                    }
+                    
+                    // Re-attach handlers since we rebuilt the tables
+                    setTimeout(attachSortHandlers, 100);
+                });
+            });
+        }
+        
+        // Initialize
+        loadData();
+        attachSortHandlers();
+        
+        // Auto-refresh every 2 minutes
+        setInterval(loadData, 120000);
+    </script>
+</body>
+</html>

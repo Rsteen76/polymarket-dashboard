@@ -1,0 +1,131 @@
+version: '3.8'
+
+services:
+  # Whale tracker - runs continuously, polls for trades
+  tracker:
+    build:
+      context: .
+      dockerfile: Dockerfile.tracker
+    volumes:
+      - ./data:/app/data
+      - ./config.json:/app/config.json:ro
+    restart: unless-stopped
+    environment:
+      - TZ=America/Los_Angeles
+
+  # Dashboard generator v2 - enhanced with skill scores and consensus detection
+  generator:
+    build:
+      context: .
+      dockerfile: Dockerfile.tracker
+    volumes:
+      - ./data:/app/data
+      - ./public:/app/public
+      - ./config.json:/app/config.json:ro
+      - ./dashboard.html:/app/dashboard.html:ro
+    command: >
+      sh -c "while true; do
+        echo '[Generator] Running enhanced dashboard generation...';
+        python generate_dashboard_v2.py /app/data/whales.db /app/public/dashboard_data.json;
+        cp /app/dashboard.html /app/public/index.html;
+        echo '[Generator] Done. Sleeping 5 min...';
+        sleep 300;
+      done"
+    restart: unless-stopped
+    environment:
+      - TZ=America/Los_Angeles
+
+  # Web server - serves the dashboard
+  web:
+    image: nginx:alpine
+    volumes:
+      - ./public:/usr/share/nginx/html:ro
+    ports:
+      - "3001:80"
+    restart: unless-stopped
+
+  # Alert bot - sends Telegram alerts for strong signals
+  alerts:
+    build:
+      context: .
+      dockerfile: Dockerfile.tracker
+    volumes:
+      - ./data:/app/data
+      - ./public:/app/public
+      - ./config.json:/app/config.json:ro
+    command: >
+      sh -c "while true; do
+        echo '[Alerts] Checking for signals...';
+        python alert_bot.py /app/public/dashboard_data.json || echo 'Alert check failed';
+        sleep 600;
+      done"
+    restart: unless-stopped
+    environment:
+      - TZ=America/Los_Angeles
+
+  # Resolution checker - checks for resolved markets periodically
+  resolution:
+    build:
+      context: .
+      dockerfile: Dockerfile.tracker
+    volumes:
+      - ./data:/app/data
+      - ./config.json:/app/config.json:ro
+    command: >
+      sh -c "while true; do
+        python resolution_checker.py -d /app/data/whales.db;
+        sleep 3600;
+      done"
+    restart: unless-stopped
+    environment:
+      - TZ=America/Los_Angeles
+
+  # Alpha scanner - detects edge opportunities across weather, whale consensus, new markets
+  alpha-scanner:
+    build:
+      context: .
+      dockerfile: Dockerfile.tracker
+    volumes:
+      - ./data:/data
+      - ../daily-briefing/data:/output
+      - ./config.json:/app/config.json:ro
+    command: >
+      sh -c "pip install schedule && python alpha_scanner.py schedule"
+    restart: unless-stopped
+    environment:
+      - TZ=America/Los_Angeles
+
+  # Paper trading tracker - tracks theoretical performance of alpha opportunities
+  paper-trader:
+    build:
+      context: .
+      dockerfile: Dockerfile.tracker
+    volumes:
+      - ./data:/data
+      - ../daily-briefing/data:/output
+      - ./config.json:/app/config.json:ro
+    command: >
+      sh -c "while true; do
+        echo '[Paper Trader] Updating paper trades...';
+        python paper_trading_tracker.py;
+        echo '[Paper Trader] Done. Sleeping 30 min...';
+        sleep 1800;
+      done"
+    restart: unless-stopped
+    environment:
+      - TZ=America/Los_Angeles
+
+  # Scheduled tasks coordinator - runs all scheduled updates
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile.tracker
+    volumes:
+      - ./data:/app/data
+      - ./public:/app/public
+      - ./config.json:/app/config.json:ro
+      - ./scheduler.py:/app/scheduler.py:ro
+    command: sh -c "pip install schedule && python scheduler.py"
+    restart: unless-stopped
+    environment:
+      - TZ=America/Los_Angeles

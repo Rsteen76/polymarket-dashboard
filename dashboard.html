@@ -1,0 +1,832 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polymarket Money Maker - Live Performance Dashboard</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 15px; 
+            background: #0a0a0a; 
+            color: #fff; 
+            line-height: 1.4;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+        }
+        .header { 
+            text-align: center; 
+            margin-bottom: 30px; 
+        }
+        .header h1 { 
+            color: #00ff88; 
+            margin: 0; 
+            font-size: 2.5rem; 
+        }
+        .header p { 
+            color: #888; 
+            margin: 5px 0; 
+        }
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 15px; 
+            margin-bottom: 30px; 
+        }
+        .card { 
+            background: #1a1a1a; 
+            border: 1px solid #333; 
+            border-radius: 8px; 
+            padding: 20px; 
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 255, 136, 0.1);
+        }
+        .card h3 { 
+            margin-top: 0; 
+            color: #fff; 
+            font-size: 1.2rem;
+        }
+        .card h4 {
+            color: #00ff88;
+            margin: 20px 0 10px 0;
+            font-size: 1.1rem;
+        }
+        .metric { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            margin: 8px 0; 
+            padding: 5px 0;
+        }
+        .metric-value { 
+            font-weight: bold; 
+        }
+        .positive { 
+            color: #00ff88; 
+        }
+        .negative { 
+            color: #ff4444; 
+        }
+        .neutral { 
+            color: #ffaa00; 
+        }
+        .alert { 
+            background: #2a1a1a; 
+            border-left: 4px solid #ffaa00; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 4px;
+        }
+        .alert.success { 
+            border-color: #00ff88; 
+            background: rgba(0, 255, 136, 0.05);
+        }
+        .alert.warning { 
+            border-color: #ffaa00; 
+            background: rgba(255, 170, 0, 0.05);
+        }
+        .alert.error { 
+            border-color: #ff4444; 
+            background: rgba(255, 68, 68, 0.05);
+        }
+        .signals-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 15px; 
+        }
+        .signals-table th, .signals-table td { 
+            padding: 10px; 
+            text-align: left; 
+            border-bottom: 1px solid #333; 
+        }
+        .signals-table th { 
+            background: #2a2a2a; 
+        }
+        .status { 
+            font-weight: bold; 
+            padding: 4px 8px; 
+            border-radius: 4px; 
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status.live { 
+            background: #00ff88; 
+            color: #000; 
+        }
+        .status.testing { 
+            background: #ffaa00; 
+            color: #000; 
+        }
+        .status.strong { 
+            background: #00ff88; 
+            color: #000; 
+        }
+        .status.medium { 
+            background: #ffaa00; 
+            color: #000; 
+        }
+        .status.weak { 
+            background: #666; 
+            color: #fff; 
+        }
+        .status.win { 
+            background: #00ff88; 
+            color: #000; 
+        }
+        .status.loss { 
+            background: #ff4444; 
+            color: #fff; 
+        }
+        .tab-container { 
+            margin-top: 30px; 
+        }
+        .tabs { 
+            display: flex; 
+            margin-bottom: 20px; 
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .tab { 
+            background: #2a2a2a; 
+            border: 1px solid #444; 
+            padding: 10px 15px; 
+            cursor: pointer; 
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+        .tab:hover {
+            background: #333;
+            border-color: #00ff88;
+        }
+        .tab.active { 
+            background: #00ff88; 
+            color: #000; 
+            border-color: #00ff88;
+        }
+        .tab-content { 
+            display: none; 
+        }
+        .tab-content.active { 
+            display: block; 
+        }
+        .timestamp { 
+            color: #666; 
+            font-size: 0.85rem; 
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #333;
+            border-radius: 50%;
+            border-top-color: #00ff88;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .card {
+                padding: 15px;
+            }
+            .tabs {
+                justify-content: center;
+            }
+            .tab {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+                flex: 1;
+                text-align: center;
+                min-width: 0;
+            }
+            .metric {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+            }
+            .metric span:first-child {
+                font-size: 0.9rem;
+                color: #aaa;
+            }
+        }
+
+        /* Smaller mobile devices */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .card {
+                padding: 12px;
+            }
+            .tab {
+                padding: 6px 8px;
+                font-size: 0.8rem;
+            }
+            .alert {
+                padding: 12px;
+            }
+        }
+
+        /* Empty state styling */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+        .empty-state h4 {
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        /* Auto-refresh indicator */
+        .refresh-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            margin-left: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💰 Polymarket Money Maker</h1>
+            <p>Whale tracker that actually makes money - not just pretty displays</p>
+            <p class="timestamp">
+                <span id="last-updated">Loading...</span>
+                <span class="refresh-indicator" id="refresh-indicator" title="Auto-refreshing every 60 seconds"></span>
+            </p>
+        </div>
+        
+        <div class="grid">
+            <div class="card">
+                <h3>📊 System Status</h3>
+                <div class="metric">
+                    <span>Status:</span>
+                    <span class="status testing">TESTING</span>
+                </div>
+                <div class="metric">
+                    <span>Data Quality:</span>
+                    <span class="metric-value">IMPROVING</span>
+                </div>
+                <div class="metric">
+                    <span>Resolution Rate:</span>
+                    <span class="metric-value">0.1%</span>
+                </div>
+                <div class="metric">
+                    <span>Qualified Whales:</span>
+                    <span class="metric-value">0</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>📈 Paper Trading Proof</h3>
+                <div class="metric">
+                    <span>Total Trades:</span>
+                    <span class="metric-value">0</span>
+                </div>
+                <div class="metric">
+                    <span>Win Rate:</span>
+                    <span class="metric-value positive">0%</span>
+                </div>
+                <div class="metric">
+                    <span>Total P&L:</span>
+                    <span class="metric-value positive">$+0.00</span>
+                </div>
+                <div class="metric">
+                    <span>Track Record:</span>
+                    <span class="metric-value">NoneW-NoneL</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>🎯 Active Signals</h3>
+                <div class="metric">
+                    <span>Total Signals:</span>
+                    <span class="metric-value">0</span>
+                </div>
+                <div class="metric">
+                    <span>High Confidence:</span>
+                    <span class="metric-value positive">0</span>
+                </div>
+                <div class="metric">
+                    <span>Consensus:</span>
+                    <span class="metric-value">0</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>🐋 Whale Performance</h3>
+                <div class="metric">
+                    <span>High Performers:</span>
+                    <span class="metric-value positive">0</span>
+                </div>
+                <div class="metric">
+                    <span>Profitable:</span>
+                    <span class="metric-value">0</span>
+                </div>
+                <div class="metric">
+                    <span>Resolved Trades:</span>
+                    <span class="metric-value">12</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Alerts -->
+        <div class="alert warning"><strong>Only 0.1% of trades resolved. Running backfill...</strong><br><small>Resolution checker is processing historical data</small></div>
+        
+        <!-- Tabs -->
+        <div class="tab-container">
+            <div class="tabs">
+                <div class="tab active" onclick="showTab('signals')">🎯 Trade Signals</div>
+                <div class="tab" onclick="showTab('weather')">🌡️ Weather Arbitrage</div>
+                <div class="tab" onclick="showTab('performance')">📊 Whale Performance</div>
+                <div class="tab" onclick="showTab('paper-trading')">📈 Paper Trading</div>
+                <div class="tab" onclick="showTab('methodology')">🧠 How It Works</div>
+            </div>
+            
+            <div id="signals" class="tab-content active">
+                <div class="card">
+                    <h3>🎯 Current Trade Signals</h3>
+                    <p>No active signals. Waiting for qualified whale activity.</p>
+                </div>
+            </div>
+            
+            <div id="weather" class="tab-content">
+                <div class="card">
+                    <h3>🌡️ Weather Arbitrage Opportunities</h3>
+                    <p>Real-time weather data vs Polymarket odds to find mispriced markets.</p>
+                    
+                    <div id="weather-summary" class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 20px;">
+                        <div class="metric">
+                            <span>Total Opportunities:</span>
+                            <span id="weather-total" class="metric-value positive">Loading...</span>
+                        </div>
+                        <div class="metric">
+                            <span>Strong Signals:</span>
+                            <span id="weather-strong" class="metric-value positive">Loading...</span>
+                        </div>
+                        <div class="metric">
+                            <span>Average Edge:</span>
+                            <span id="weather-edge" class="metric-value positive">Loading...</span>
+                        </div>
+                        <div class="metric">
+                            <span>Last Updated:</span>
+                            <span id="weather-updated" class="metric-value timestamp">Loading...</span>
+                        </div>
+                    </div>
+                    
+                    <div id="weather-opportunities">
+                        <div class="alert warning">
+                            <strong>Loading opportunities...</strong><br>
+                            <small>Comparing real-time weather forecasts against market prices</small>
+                        </div>
+                    </div>
+                    
+                    <div class="metric" style="margin-top: 15px;">
+                        <span>How it works:</span>
+                        <span class="metric-value">Weather API → True Probability → Compare to Market Price</span>
+                    </div>
+                    <div class="metric">
+                        <span>Data sources:</span>
+                        <span class="metric-value">OpenWeatherMap, NWS, Weather Underground</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="performance" class="tab-content">
+                <div class="card">
+                    <h3>📊 Whale Performance Tracking</h3>
+                    <p>Performance metrics for qualified whales (10+ resolved trades required):</p>
+                    
+                    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: 20px 0;">
+                        <div class="metric">
+                            <span>Qualified Whales:</span>
+                            <span id="whale-count" class="metric-value positive">Loading...</span>
+                        </div>
+                        <div class="metric">
+                            <span>Signal Accuracy:</span>
+                            <span id="whale-accuracy" class="metric-value positive">Loading...</span>
+                        </div>
+                        <div class="metric">
+                            <span>Total Signals:</span>
+                            <span id="whale-signals" class="metric-value">Loading...</span>
+                        </div>
+                        <div class="metric">
+                            <span>Last Signal:</span>
+                            <span id="whale-last-signal" class="metric-value timestamp">Loading...</span>
+                        </div>
+                    </div>
+                    
+                    <h4>Top Performers</h4>
+                    <div id="whale-leaderboard">
+                        <div class="alert warning">
+                            <strong>Loading whale performance data...</strong>
+                        </div>
+                    </div>
+                    
+                    <h4>Signal History</h4>
+                    <div id="signal-history">
+                        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: 10px 0;">
+                            <div class="metric">
+                                <span>Signals Last 24h:</span>
+                                <span id="signals-24h" class="metric-value positive">Loading...</span>
+                            </div>
+                            <div class="metric">
+                                <span>Total Generated:</span>
+                                <span id="signals-total" class="metric-value">Loading...</span>
+                            </div>
+                        </div>
+                        <div id="recent-signals">
+                            <div class="alert warning">
+                                <strong>Loading recent signals...</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="paper-trading" class="tab-content">
+                <div class="card">
+                    <h3>📈 Paper Trading Performance</h3>
+                    <p>Theoretical performance based on signal execution:</p>
+                    
+                    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: 20px 0;">
+                        <div class="metric">
+                            <span>Total Trades:</span>
+                            <span id="pt-total-trades" class="metric-value">Loading...</span>
+                        </div>
+                        <div class="metric">
+                            <span>Win Rate:</span>
+                            <span id="pt-win-rate" class="metric-value positive">Loading...</span>
+                        </div>
+                        <div class="metric">
+                            <span>Total P&L:</span>
+                            <span id="pt-total-pnl" class="metric-value positive">Loading...</span>
+                        </div>
+                        <div class="metric">
+                            <span>Average per Trade:</span>
+                            <span id="pt-avg-trade" class="metric-value">Loading...</span>
+                        </div>
+                        <div class="metric">
+                            <span>Best Trade:</span>
+                            <span id="pt-best-trade" class="metric-value positive">Loading...</span>
+                        </div>
+                        <div class="metric">
+                            <span>Worst Trade:</span>
+                            <span id="pt-worst-trade" class="metric-value negative">Loading...</span>
+                        </div>
+                    </div>
+                    
+                    <h4>Recent Trades</h4>
+                    <div id="recent-trades">
+                        <div class="alert warning">
+                            <strong>Loading recent trades...</strong>
+                        </div>
+                    </div>
+                    
+                    <h4>Daily P&L Chart</h4>
+                    <div id="daily-pnl-chart" style="margin: 20px 0;">
+                        <div class="alert warning">
+                            <strong>Loading P&L history...</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="methodology" class="tab-content">
+                <div class="card">
+                    <h3>🧠 Why This Works</h3>
+                    <p><strong>Data-Driven Approach:</strong> Only uses resolved trades - no speculation or unproven metrics.</p>
+                    <p><strong>Proven Performance:</strong> Whales must have 10+ resolved trades and 60%+ win rate to generate signals.</p>
+                    <p><strong>Paper Trading Validation:</strong> All signals are paper-traded first to prove the system works.</p>
+                    <p><strong>Edge Estimation:</strong> Historical whale performance projects expected edge on new trades.</p>
+                    <p><strong>Consensus Detection:</strong> When multiple proven whales agree, confidence increases.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabId) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
+            // Load tab-specific data
+            if (tabId === 'weather') {
+                loadWeatherData();
+            } else if (tabId === 'paper-trading') {
+                loadPaperTradingData();
+            } else if (tabId === 'performance') {
+                loadPerformanceData();
+            }
+        }
+        
+        async function loadWeatherData() {
+            try {
+                const response = await fetch('weather_data.json');
+                const data = await response.json();
+                
+                // Update summary metrics
+                document.getElementById('weather-total').textContent = data.summary.total_opportunities;
+                document.getElementById('weather-strong').textContent = data.summary.strong_signals;
+                document.getElementById('weather-edge').textContent = (data.summary.avg_edge * 100).toFixed(1) + '%';
+                
+                // Format timestamp
+                const updatedTime = new Date(data.generated_at);
+                const minutesAgo = Math.floor((new Date() - updatedTime) / 60000);
+                document.getElementById('weather-updated').textContent = minutesAgo === 0 ? 'Just now' : `${minutesAgo} min ago`;
+                
+                // Build opportunities HTML
+                const opportunitiesContainer = document.getElementById('weather-opportunities');
+                
+                if (data.opportunities.length === 0) {
+                    opportunitiesContainer.innerHTML = `
+                        <div class="alert warning">
+                            <strong>No opportunities found</strong><br>
+                            <small>Market prices align with weather forecasts</small>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let opportunitiesHtml = '';
+                data.opportunities.forEach(opp => {
+                    const signalClass = opp.signal_strength === 'strong' ? 'positive' : opp.signal_strength === 'medium' ? 'neutral' : 'neutral';
+                    const edgePercent = (opp.edge * 100).toFixed(1);
+                    const marketPercent = (opp.current_price * 100).toFixed(0);
+                    const truePercent = (opp.true_probability * 100).toFixed(0);
+                    
+                    opportunitiesHtml += `
+                        <div class="alert success" style="margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <strong class="${signalClass}">${opp.market_name}</strong>
+                                <span class="status ${opp.signal_strength}" style="margin-left: 10px;">${opp.signal_strength.toUpperCase()}</span>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 10px;">
+                                <div class="metric">
+                                    <span>Market Price:</span>
+                                    <span class="metric-value">${marketPercent}¢</span>
+                                </div>
+                                <div class="metric">
+                                    <span>True Probability:</span>
+                                    <span class="metric-value positive">${truePercent}%</span>
+                                </div>
+                                <div class="metric">
+                                    <span>Edge:</span>
+                                    <span class="metric-value positive">+${edgePercent}%</span>
+                                </div>
+                                <div class="metric">
+                                    <span>Volume:</span>
+                                    <span class="metric-value">${opp.volume}</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <small class="timestamp">${opp.data_source}</small>
+                                <a href="${opp.market_url}" target="_blank" style="color: #00ff88; text-decoration: none;">View Market →</a>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                opportunitiesContainer.innerHTML = opportunitiesHtml;
+                
+            } catch (error) {
+                console.error('Error loading weather data:', error);
+                document.getElementById('weather-opportunities').innerHTML = `
+                    <div class="alert error">
+                        <strong>Error loading weather data</strong><br>
+                        <small>Unable to fetch weather arbitrage opportunities</small>
+                    </div>
+                `;
+            }
+        }
+        
+        async function loadPaperTradingData() {
+            try {
+                const response = await fetch('performance.json');
+                const data = await response.json();
+                const pt = data.paper_trading;
+                
+                // Update metrics
+                document.getElementById('pt-total-trades').textContent = pt.total_trades;
+                document.getElementById('pt-win-rate').textContent = (pt.win_rate * 100).toFixed(1) + '%';
+                document.getElementById('pt-total-pnl').textContent = '$' + (pt.total_pnl >= 0 ? '+' : '') + pt.total_pnl.toFixed(2);
+                document.getElementById('pt-avg-trade').textContent = '$' + (pt.average_trade >= 0 ? '+' : '') + pt.average_trade.toFixed(2);
+                document.getElementById('pt-best-trade').textContent = '$+' + pt.best_trade.toFixed(2);
+                document.getElementById('pt-worst-trade').textContent = '$' + pt.worst_trade.toFixed(2);
+                
+                // Update P&L color classes
+                const pnlElement = document.getElementById('pt-total-pnl');
+                const avgElement = document.getElementById('pt-avg-trade');
+                pnlElement.className = 'metric-value ' + (pt.total_pnl >= 0 ? 'positive' : 'negative');
+                avgElement.className = 'metric-value ' + (pt.average_trade >= 0 ? 'positive' : 'negative');
+                
+                // Build recent trades
+                let tradesHtml = '';
+                pt.trades.slice(0, 5).forEach(trade => {
+                    const statusClass = trade.status === 'WIN' ? 'positive' : 'negative';
+                    const pnlSign = trade.pnl >= 0 ? '+' : '';
+                    tradesHtml += `
+                        <div class="alert ${trade.status === 'WIN' ? 'success' : 'error'}" style="margin-bottom: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <strong>${trade.market}</strong>
+                                <span class="status ${trade.status.toLowerCase()}">${trade.status}</span>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 5px 0;">
+                                <small>Position: ${trade.position}</small>
+                                <small>Entry: ${(trade.entry_price * 100).toFixed(0)}¢</small>
+                                <small>Exit: ${(trade.exit_price * 100).toFixed(0)}¢</small>
+                                <small class="${statusClass}">P&L: $${pnlSign}${trade.pnl.toFixed(2)}</small>
+                            </div>
+                            <small class="timestamp">${new Date(trade.date).toLocaleDateString()} - ${trade.signal_source}</small>
+                        </div>
+                    `;
+                });
+                document.getElementById('recent-trades').innerHTML = tradesHtml || '<p>No recent trades</p>';
+                
+                // Build daily P&L chart (simple text version)
+                let chartHtml = '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">';
+                Object.entries(pt.daily_pnl).slice(0, 7).forEach(([date, pnl]) => {
+                    const pnlClass = pnl >= 0 ? 'positive' : 'negative';
+                    const pnlSign = pnl >= 0 ? '+' : '';
+                    chartHtml += `
+                        <div class="metric">
+                            <span>${new Date(date).toLocaleDateString()}:</span>
+                            <span class="metric-value ${pnlClass}">$${pnlSign}${pnl.toFixed(2)}</span>
+                        </div>
+                    `;
+                });
+                chartHtml += '</div>';
+                document.getElementById('daily-pnl-chart').innerHTML = chartHtml;
+                
+            } catch (error) {
+                console.error('Error loading paper trading data:', error);
+            }
+        }
+        
+        async function loadPerformanceData() {
+            try {
+                const response = await fetch('performance.json');
+                const data = await response.json();
+                
+                // Update whale metrics
+                document.getElementById('whale-count').textContent = data.whale_tracking.qualified_whales;
+                document.getElementById('whale-accuracy').textContent = (data.whale_tracking.whale_signal_accuracy * 100).toFixed(1) + '%';
+                document.getElementById('whale-signals').textContent = data.whale_tracking.total_whale_signals;
+                
+                // Last signal timestamp
+                const lastSignalTime = data.whale_tracking.top_whales[0]?.last_signal;
+                if (lastSignalTime) {
+                    const minutesAgo = Math.floor((new Date() - new Date(lastSignalTime)) / 60000);
+                    document.getElementById('whale-last-signal').textContent = minutesAgo === 0 ? 'Just now' : `${minutesAgo} min ago`;
+                } else {
+                    document.getElementById('whale-last-signal').textContent = 'No recent signals';
+                }
+                
+                // Build whale leaderboard
+                let whaleHtml = '';
+                data.whale_tracking.top_whales.forEach((whale, index) => {
+                    whaleHtml += `
+                        <div class="alert success" style="margin-bottom: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <strong>#${index + 1} ${whale.id}</strong>
+                                <span class="status live">ACTIVE</span>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;">
+                                <div class="metric">
+                                    <span>Win Rate:</span>
+                                    <span class="metric-value positive">${(whale.win_rate * 100).toFixed(1)}%</span>
+                                </div>
+                                <div class="metric">
+                                    <span>Trades:</span>
+                                    <span class="metric-value">${whale.total_trades}</span>
+                                </div>
+                                <div class="metric">
+                                    <span>Avg Edge:</span>
+                                    <span class="metric-value positive">${(whale.avg_edge * 100).toFixed(1)}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                document.getElementById('whale-leaderboard').innerHTML = whaleHtml || '<p>No qualified whales yet</p>';
+                
+                // Update signal metrics
+                document.getElementById('signals-24h').textContent = data.signals.last_24h.length;
+                document.getElementById('signals-total').textContent = data.signals.total_generated;
+                
+                // Build recent signals
+                let signalsHtml = '';
+                data.signals.last_24h.forEach(signal => {
+                    const strengthClass = signal.signal === 'strong_buy' ? 'positive' : 'neutral';
+                    signalsHtml += `
+                        <div class="alert warning" style="margin-bottom: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <strong class="${strengthClass}">${signal.market}</strong>
+                                <small class="timestamp">${new Date(signal.timestamp).toLocaleTimeString()}</small>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px;">
+                                <small>Signal: ${signal.signal}</small>
+                                <small>Confidence: ${(signal.confidence * 100).toFixed(0)}%</small>
+                                <small>Edge: ${(signal.edge * 100).toFixed(1)}%</small>
+                                <small>Source: ${signal.source}</small>
+                            </div>
+                        </div>
+                    `;
+                });
+                document.getElementById('recent-signals').innerHTML = signalsHtml || '<p>No recent signals</p>';
+                
+            } catch (error) {
+                console.error('Error loading performance data:', error);
+            }
+        }
+        
+        // Auto-refresh data every 60 seconds
+        setInterval(() => {
+            const activeTab = document.querySelector('.tab-content.active');
+            if (activeTab) {
+                if (activeTab.id === 'weather') {
+                    loadWeatherData();
+                } else if (activeTab.id === 'paper-trading') {
+                    loadPaperTradingData();
+                } else if (activeTab.id === 'performance') {
+                    loadPerformanceData();
+                }
+            }
+        }, 60000);
+        
+        // Update header timestamp
+        function updateHeaderTimestamp() {
+            const now = new Date();
+            document.getElementById('last-updated').textContent = 
+                `Last updated: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+        }
+
+        // Load data on page load based on active tab
+        document.addEventListener('DOMContentLoaded', () => {
+            // Update timestamp immediately
+            updateHeaderTimestamp();
+            
+            // Update timestamp every minute
+            setInterval(updateHeaderTimestamp, 60000);
+            
+            const activeTab = document.querySelector('.tab-content.active');
+            if (activeTab) {
+                if (activeTab.id === 'weather') {
+                    loadWeatherData();
+                } else if (activeTab.id === 'paper-trading') {
+                    loadPaperTradingData();
+                } else if (activeTab.id === 'performance') {
+                    loadPerformanceData();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

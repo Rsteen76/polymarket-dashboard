@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polymarket Money Maker - Live Performance Dashboard</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background: #0a0a0a; color: #fff; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: #00ff88; margin: 0; font-size: 2.5rem; }
+        .header p { color: #888; margin: 5px 0; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .card { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 20px; }
+        .card h3 { margin-top: 0; color: #fff; }
+        .metric { display: flex; justify-content: space-between; margin: 10px 0; }
+        .metric-value { font-weight: bold; }
+        .positive { color: #00ff88; }
+        .negative { color: #ff4444; }
+        .neutral { color: #ffaa00; }
+        .alert { background: #2a1a1a; border-left: 4px solid #ffaa00; padding: 15px; margin: 10px 0; }
+        .alert.success { border-color: #00ff88; }
+        .alert.warning { border-color: #ffaa00; }
+        .alert.error { border-color: #ff4444; }
+        .signals-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .signals-table th, .signals-table td { padding: 10px; text-align: left; border-bottom: 1px solid #333; }
+        .signals-table th { background: #2a2a2a; }
+        .status { font-weight: bold; padding: 4px 8px; border-radius: 4px; }
+        .status.live { background: #00ff88; color: #000; }
+        .status.testing { background: #ffaa00; color: #000; }
+        .tab-container { margin-top: 30px; }
+        .tabs { display: flex; margin-bottom: 20px; }
+        .tab { background: #2a2a2a; border: 1px solid #444; padding: 10px 20px; cursor: pointer; margin-right: 5px; }
+        .tab.active { background: #00ff88; color: #000; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .timestamp { color: #666; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💰 Polymarket Money Maker</h1>
+            <p>Whale tracker that actually makes money - not just pretty displays</p>
+            <p class="timestamp">Generated: 2026-01-28T19:35:43.317988</p>
+        </div>
+        
+        <div class="grid">
+            <div class="card">
+                <h3>📊 System Status</h3>
+                <div class="metric">
+                    <span>Status:</span>
+                    <span class="status testing">TESTING</span>
+                </div>
+                <div class="metric">
+                    <span>Data Quality:</span>
+                    <span class="metric-value">IMPROVING</span>
+                </div>
+                <div class="metric">
+                    <span>Resolution Rate:</span>
+                    <span class="metric-value">0.1%</span>
+                </div>
+                <div class="metric">
+                    <span>Qualified Whales:</span>
+                    <span class="metric-value">0</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>📈 Paper Trading Proof</h3>
+                <div class="metric">
+                    <span>Total Trades:</span>
+                    <span class="metric-value">0</span>
+                </div>
+                <div class="metric">
+                    <span>Win Rate:</span>
+                    <span class="metric-value positive">0%</span>
+                </div>
+                <div class="metric">
+                    <span>Total P&L:</span>
+                    <span class="metric-value positive">$+0.00</span>
+                </div>
+                <div class="metric">
+                    <span>Track Record:</span>
+                    <span class="metric-value">NoneW-NoneL</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>🎯 Active Signals</h3>
+                <div class="metric">
+                    <span>Total Signals:</span>
+                    <span class="metric-value">0</span>
+                </div>
+                <div class="metric">
+                    <span>High Confidence:</span>
+                    <span class="metric-value positive">0</span>
+                </div>
+                <div class="metric">
+                    <span>Consensus:</span>
+                    <span class="metric-value">0</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>🐋 Whale Performance</h3>
+                <div class="metric">
+                    <span>High Performers:</span>
+                    <span class="metric-value positive">0</span>
+                </div>
+                <div class="metric">
+                    <span>Profitable:</span>
+                    <span class="metric-value">0</span>
+                </div>
+                <div class="metric">
+                    <span>Resolved Trades:</span>
+                    <span class="metric-value">12</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Alerts -->
+        <div class="alert warning"><strong>Only 0.1% of trades resolved. Running backfill...</strong><br><small>Resolution checker is processing historical data</small></div>
+        
+        <!-- Tabs -->
+        <div class="tab-container">
+            <div class="tabs">
+                <div class="tab active" onclick="showTab('signals')">🎯 Trade Signals</div>
+                <div class="tab" onclick="showTab('weather')">🌡️ Weather Arbitrage</div>
+                <div class="tab" onclick="showTab('performance')">📊 Whale Performance</div>
+                <div class="tab" onclick="showTab('paper-trading')">📈 Paper Trading</div>
+                <div class="tab" onclick="showTab('methodology')">🧠 How It Works</div>
+            </div>
+            
+            <div id="signals" class="tab-content active">
+                <div class="card">
+                    <h3>🎯 Current Trade Signals</h3>
+                    <p>No active signals. Waiting for qualified whale activity.</p>
+                </div>
+            </div>
+            
+            <div id="weather" class="tab-content">
+                <div class="card">
+                    <h3>🌡️ Weather Arbitrage Opportunities</h3>
+                    <p>Real-time weather data vs Polymarket odds to find mispriced markets.</p>
+                    <div id="weather-opportunities">
+                        <div class="alert warning">
+                            <strong>Scanning for opportunities...</strong><br>
+                            <small>Compares real-time weather forecasts against market prices</small>
+                        </div>
+                    </div>
+                    <div class="metric" style="margin-top: 15px;">
+                        <span>How it works:</span>
+                        <span class="metric-value">Weather API → True Probability → Compare to Market Price</span>
+                    </div>
+                    <div class="metric">
+                        <span>Data sources:</span>
+                        <span class="metric-value">OpenWeatherMap, NWS, Weather Underground</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="performance" class="tab-content">
+                <div class="card">
+                    <h3>📊 Top Performing Whales</h3>
+                    <p>No qualified whales yet. Need 10+ resolved trades per whale.</p>
+                </div>
+            </div>
+            
+            <div id="paper-trading" class="tab-content">
+                <div class="card">
+                    <h3>📈 Paper Trading Performance</h3>
+                    <p>Theoretical performance based on signal execution:</p>
+                    
+            <div class="metric">
+                <span>Total Trades:</span>
+                <span class="metric-value">0</span>
+            </div>
+            <div class="metric">
+                <span>Win Rate:</span>
+                <span class="metric-value positive">0%</span>
+            </div>
+            <div class="metric">
+                <span>Total P&L:</span>
+                <span class="metric-value positive">$+0.00</span>
+            </div>
+            <div class="metric">
+                <span>Average per Trade:</span>
+                <span class="metric-value">$+0.00</span>
+            </div>
+        
+                </div>
+            </div>
+            
+            <div id="methodology" class="tab-content">
+                <div class="card">
+                    <h3>🧠 Why This Works</h3>
+                    <p><strong>Data-Driven Approach:</strong> Only uses resolved trades - no speculation or unproven metrics.</p>
+                    <p><strong>Proven Performance:</strong> Whales must have 10+ resolved trades and 60%+ win rate to generate signals.</p>
+                    <p><strong>Paper Trading Validation:</strong> All signals are paper-traded first to prove the system works.</p>
+                    <p><strong>Edge Estimation:</strong> Historical whale performance projects expected edge on new trades.</p>
+                    <p><strong>Consensus Detection:</strong> When multiple proven whales agree, confidence increases.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabId) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

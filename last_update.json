@@ -1,0 +1,41 @@
+{
+  "started_at": "2026-01-28T19:34:21.335875",
+  "quick_mode": true,
+  "steps": {
+    "resolution_check": {
+      "status": "completed",
+      "markets_checked": 100,
+      "markets_resolved": 0,
+      "trades_resolved": 0,
+      "total_pnl": 0
+    },
+    "performance_analysis": {
+      "status": "completed",
+      "qualified_whales": 0,
+      "total_resolved_trades": 0
+    },
+    "signal_generation": {
+      "status": "completed",
+      "signals_generated": 0,
+      "consensus_signals": 0,
+      "high_confidence": 0
+    },
+    "paper_trading": {
+      "status": "completed",
+      "new_trades": 0,
+      "resolved_trades": 0,
+      "total_trades": 0,
+      "win_rate": 0,
+      "total_pnl": 0
+    },
+    "dashboard_update": {
+      "status": "completed",
+      "data_quality": "IMPROVING",
+      "resolution_rate": 0.1,
+      "system_status": "TESTING"
+    }
+  },
+  "completed_at": "2026-01-28T19:35:43.321998",
+  "duration_seconds": 81.99,
+  "success": true
+}

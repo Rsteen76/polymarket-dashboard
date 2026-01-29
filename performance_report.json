@@ -1,0 +1,21 @@
+{
+  "generated_at": "2026-01-28T19:35:43.277435",
+  "methodology": {
+    "min_resolved_trades": 10,
+    "ranking_criteria": [
+      "ROI (confidence-adjusted)",
+      "Win Rate",
+      "Sample Size"
+    ],
+    "data_source": "Resolved trades only - no speculation"
+  },
+  "summary": {
+    "qualified_whales": 0,
+    "total_resolved_trades": 0,
+    "total_tracked_pnl": 0,
+    "profitable_whales": 0,
+    "profitability_rate": 0
+  },
+  "top_performers": [],
+  "all_qualified": []
+}

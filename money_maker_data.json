@@ -1,0 +1,111 @@
+{
+  "generated_at": "2026-01-28T19:35:43.317988",
+  "version": "MoneyMaker v1.0",
+  "methodology": {
+    "data_source": "Resolved trades only - no speculation",
+    "minimum_sample_size": 10,
+    "signal_criteria": {
+      "min_win_rate": 60,
+      "min_roi": 10,
+      "min_resolved_trades": 20
+    }
+  },
+  "system_health": {
+    "resolution_rate": 0.1,
+    "data_quality": "IMPROVING",
+    "total_resolved_trades": 12,
+    "tracking_since": "2024-04-23 09:40:08"
+  },
+  "paper_trading_proof": {
+    "system_status": "TESTING",
+    "total_paper_trades": 0,
+    "win_rate": 0,
+    "total_pnl": 0,
+    "active_trades": 0,
+    "avg_trade_pnl": 0,
+    "track_record": "NoneW-NoneL",
+    "generated_at": "2026-01-28T19:35:43.317988"
+  },
+  "overview": {
+    "resolution_stats": {
+      "total_trades": 18914,
+      "resolved_trades": 12,
+      "unresolved_trades": 18902,
+      "wins": 7,
+      "losses": 5,
+      "total_pnl": -3529.27,
+      "resolution_rate": 0.1,
+      "win_rate": 58.3
+    },
+    "whale_tiers": {
+      "total_qualified": 0,
+      "profitable": 0,
+      "high_performers": 0,
+      "unqualified": 24
+    },
+    "qualified_whales": 0,
+    "active_signals": 0,
+    "consensus_signals": 0
+  },
+  "performance": {
+    "top_whales": [],
+    "performance_summary": {
+      "qualified_whales": 0,
+      "total_resolved_trades": 0,
+      "total_tracked_pnl": 0,
+      "profitable_whales": 0,
+      "profitability_rate": 0
+    },
+    "methodology_note": "Based on resolved trades only. Whales need 10+ resolved trades to qualify."
+  },
+  "signals": {
+    "active_count": 0,
+    "high_confidence": 0,
+    "top_signals": [],
+    "consensus": [],
+    "criteria": {
+      "db_path": "data/whales.db",
+      "session": null,
+      "MIN_WIN_RATE": 60.0,
+      "MIN_RESOLVED_TRADES": 20,
+      "MIN_ROI": 10.0,
+      "RECENT_HOURS": 24
+    }
+  },
+  "paper_trading": {
+    "system_proof": {
+      "system_status": "TESTING",
+      "total_paper_trades": 0,
+      "win_rate": 0,
+      "total_pnl": 0,
+      "active_trades": 0,
+      "avg_trade_pnl": 0,
+      "track_record": "NoneW-NoneL",
+      "generated_at": "2026-01-28T19:35:43.317988"
+    },
+    "performance": {
+      "total_trades": 0,
+      "wins": null,
+      "losses": null,
+      "total_pnl": 0,
+      "avg_pnl": 0,
+      "active_trades": 0,
+      "win_rate": 0
+    },
+    "recent_trades": [],
+    "confidence_breakdown": []
+  },
+  "alerts": [
+    {
+      "type": "warning",
+      "priority": "high",
+      "message": "Only 0.1% of trades resolved. Running backfill...",
+      "action": "Resolution checker is processing historical data"
+    }
+  ],
+  "next_steps": [
+    "Wait for resolution backfill to complete for better data quality",
+    "Need more historical data - only few whales meet performance criteria",
+    "Continue paper trading to build track record before real money"
+  ]
+}

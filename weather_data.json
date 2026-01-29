@@ -1,0 +1,96 @@
+{
+  "opportunities": [
+    {
+      "market_name": "Temperature in Dallas above 50°F tomorrow?",
+      "market_url": "https://polymarket.com/event/dallas-temp-above-50f",
+      "current_price": 0.25,
+      "true_probability": 0.9,
+      "edge": 0.65,
+      "expected_value": 2.6,
+      "confidence": 0.8,
+      "data_source": "Current temp: 58.0°F",
+      "volume": "$35k Vol.",
+      "expires": "2026-01-29T19:50:38.142796",
+      "signal_strength": "strong",
+      "category": "weather"
+    },
+    {
+      "market_name": "Temperature in Miami above 70°F on January 28?",
+      "market_url": "https://polymarket.com/event/miami-temp-above-70f-jan-28",
+      "current_price": 0.35,
+      "true_probability": 0.9,
+      "edge": 0.55,
+      "expected_value": 1.57,
+      "confidence": 0.8,
+      "data_source": "Current temp: 76.0°F",
+      "volume": "$77k Vol.",
+      "expires": "2026-01-29T19:50:37.840182",
+      "signal_strength": "strong",
+      "category": "weather"
+    },
+    {
+      "market_name": "Temperature in Los Angeles above 65°F today?",
+      "market_url": "https://polymarket.com/event/la-temp-above-65f",
+      "current_price": 0.45,
+      "true_probability": 0.9,
+      "edge": 0.45,
+      "expected_value": 1.0,
+      "confidence": 0.8,
+      "data_source": "Current temp: 72.0°F",
+      "volume": "$82k Vol.",
+      "expires": "2026-01-29T19:50:38.042157",
+      "signal_strength": "strong",
+      "category": "weather"
+    },
+    {
+      "market_name": "Temperature in Chicago above 32°F tomorrow?",
+      "market_url": "https://polymarket.com/event/chicago-temp-above-32f",
+      "current_price": 0.8,
+      "true_probability": 0.4,
+      "edge": 0.4,
+      "expected_value": 2.0,
+      "confidence": 0.8,
+      "data_source": "Current temp: 28.0°F",
+      "volume": "$45k Vol.",
+      "expires": "2026-01-29T19:50:37.941917",
+      "signal_strength": "strong",
+      "category": "weather"
+    },
+    {
+      "market_name": "Temperature in Seattle above 45°F on January 29?",
+      "market_url": "https://polymarket.com/event/seattle-temp-above-45f",
+      "current_price": 0.6,
+      "true_probability": 0.8,
+      "edge": 0.2,
+      "expected_value": 0.33,
+      "confidence": 0.8,
+      "data_source": "Current temp: 48.0°F",
+      "volume": "$28k Vol.",
+      "expires": "2026-01-29T19:50:38.243356",
+      "signal_strength": "weak",
+      "category": "weather"
+    }
+  ],
+  "summary": {
+    "total_opportunities": 5,
+    "strong_signals": 4,
+    "medium_signals": 0,
+    "weak_signals": 1,
+    "avg_edge": 0.45,
+    "best_opportunity": {
+      "market_name": "Temperature in Dallas above 50°F tomorrow?",
+      "market_url": "https://polymarket.com/event/dallas-temp-above-50f",
+      "current_price": 0.25,
+      "true_probability": 0.9,
+      "edge": 0.65,
+      "expected_value": 2.6,
+      "confidence": 0.8,
+      "data_source": "Current temp: 58.0°F",
+      "volume": "$35k Vol.",
+      "expires": "2026-01-29T19:50:38.142796",
+      "signal_strength": "strong",
+      "category": "weather"
+    }
+  },
+  "generated_at": "2026-01-28T19:50:38.343915"
+}
